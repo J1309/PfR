@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   selectTopic('pension');
   showCheatSheet('pension');
   setupKeyboardShortcuts();
+  initChecklist();
 });
 
 // ==========================================================================
@@ -326,6 +327,7 @@ function startCbtExam() {
   document.getElementById('cbt-pre-screen').classList.add('hidden');
   document.getElementById('cbt-result-screen').classList.add('hidden');
   document.getElementById('cbt-exam-screen').classList.remove('hidden');
+  document.body.classList.add('cbt-active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   renderCbtPalette();
@@ -426,6 +428,9 @@ function renderCbtQuestion() {
     container.appendChild(label);
   });
 
+  const countEl = document.getElementById('palette-summary-count');
+  if (countEl) countEl.textContent = state.cbt.questions.length;
+
   renderCbtPalette();
 }
 
@@ -442,6 +447,32 @@ function jumpToCbtQuestion(idx) {
   }
 
   renderCbtQuestion();
+
+  // Scroll back to question top on mobile so candidate isn't stuck at the palette
+  if (window.innerWidth <= 900) {
+    const qPane = document.querySelector('.ibps-q-pane');
+    if (qPane) {
+      qPane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+function toggleCbtPaletteMobile() {
+  const palettePane = document.querySelector('.ibps-palette-pane');
+  if (palettePane) {
+    palettePane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function exitCbtExam() {
+  if (confirm('Are you sure you want to exit the simulation test? Current progress will be discarded.')) {
+    clearInterval(state.cbt.timerInterval);
+    document.body.classList.remove('cbt-active');
+    document.getElementById('cbt-exam-screen').classList.add('hidden');
+    document.getElementById('cbt-result-screen').classList.add('hidden');
+    document.getElementById('cbt-pre-screen').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function cbtSaveAndNext() {
@@ -492,6 +523,7 @@ function confirmSubmitCbt() {
 function submitCbtExam() {
   clearInterval(state.cbt.timerInterval);
   state.cbt.isSubmitted = true;
+  document.body.classList.remove('cbt-active');
 
   // Calculate scores
   let correctCount = 0;
@@ -664,7 +696,9 @@ function filterCheatSheets(query) {
 // ==========================================================================
 function updateBookmarkCount() {
   const badge = document.getElementById('bookmark-count');
+  const badgeMobile = document.getElementById('bookmark-count-mobile');
   if (badge) badge.textContent = state.bookmarks.length;
+  if (badgeMobile) badgeMobile.textContent = state.bookmarks.length;
 }
 
 function renderBookmarks() {
@@ -739,4 +773,34 @@ function setupKeyboardShortcuts() {
       }
     }
   });
+}
+
+// ==========================================================================
+// 7. Exam Day Checklist Persistence
+// ==========================================================================
+function initChecklist() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('pfrda_exam_checklist') || '{}');
+    document.querySelectorAll('#exam-checklist input[type="checkbox"]').forEach(cb => {
+      const id = cb.getAttribute('data-check-id');
+      if (id && saved[id]) {
+        cb.checked = true;
+      }
+    });
+  } catch (e) {
+    console.error('Error loading checklist', e);
+  }
+}
+
+function toggleChecklistItem(cb) {
+  try {
+    const saved = JSON.parse(localStorage.getItem('pfrda_exam_checklist') || '{}');
+    const id = cb.getAttribute('data-check-id');
+    if (id) {
+      saved[id] = cb.checked;
+      localStorage.setItem('pfrda_exam_checklist', JSON.stringify(saved));
+    }
+  } catch (e) {
+    console.error('Error saving checklist', e);
+  }
 }

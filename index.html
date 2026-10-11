@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>PFRDA Grade A 2026 | Ultimate Exam Readiness Platform</title>
   <meta name="description" content="Dedicated 4-Day Crash Preparation & IBPS CBT Simulation Platform for PFRDA Grade A Assistant Manager Exam 2026.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,25 +18,35 @@
         <div class="brand-badge">PFRDA 2026</div>
         <div class="brand-titles">
           <h1>Grade A Assistant Manager</h1>
-          <span class="sub-pill">Exam Date: 15 October 2026 (Phase 1)</span>
+          <span class="sub-pill">Exam: 15 Oct 2026</span>
         </div>
       </div>
 
       <nav class="header-nav">
         <button id="nav-drill" class="nav-btn active" onclick="switchView('drill')">
-          <span class="icon">🎯</span> Learn & Drill
+          <span class="icon">🎯</span>
+          <span class="nav-lbl-desktop">Learn & Drill</span>
+          <span class="nav-lbl-mobile">Drill</span>
         </button>
         <button id="nav-cbt" class="nav-btn" onclick="switchView('cbt')">
-          <span class="icon">⚡</span> IBPS Exam Simulator
+          <span class="icon">⚡</span>
+          <span class="nav-lbl-desktop">IBPS Exam Simulator</span>
+          <span class="nav-lbl-mobile">CBT Mock</span>
         </button>
         <button id="nav-cheatsheet" class="nav-btn" onclick="switchView('cheatsheet')">
-          <span class="icon">📖</span> High-Yield Cheat Sheets
+          <span class="icon">📖</span>
+          <span class="nav-lbl-desktop">High-Yield Cheat Sheets</span>
+          <span class="nav-lbl-mobile">Cheats</span>
         </button>
         <button id="nav-bookmarks" class="nav-btn" onclick="switchView('bookmarks')">
-          <span class="icon">⭐</span> Starred Revision (<span id="bookmark-count">0</span>)
+          <span class="icon">⭐</span>
+          <span class="nav-lbl-desktop">Starred Revision (<span id="bookmark-count">0</span>)</span>
+          <span class="nav-lbl-mobile">Starred <span id="bookmark-count-mobile" class="mobile-count-pill">0</span></span>
         </button>
         <button id="nav-guide" class="nav-btn" onclick="switchView('guide')">
-          <span class="icon">🚀</span> 4-Day Strategy
+          <span class="icon">🚀</span>
+          <span class="nav-lbl-desktop">4-Day Strategy & Exam Rules</span>
+          <span class="nav-lbl-mobile">Guide</span>
         </button>
       </nav>
 
@@ -272,13 +282,19 @@
               <span class="timer-label">Time Left:</span>
               <span class="timer-digits" id="cbt-timer">40:00</span>
             </div>
+            <button class="btn-exit-cbt" onclick="exitCbtExam()" title="Exit Simulation">✕ Exit</button>
           </div>
 
           <div class="ibps-workspace">
             <!-- Question Arena -->
             <div class="ibps-q-pane">
               <div class="q-pane-header">
-                <span id="cbt-q-number-title">Question No. 1</span>
+                <div class="q-title-group">
+                  <span id="cbt-q-number-title">Question No. 1</span>
+                  <button id="btn-cbt-toggle-palette" class="btn-palette-shortcut" onclick="toggleCbtPaletteMobile()" title="Jump to Question Palette">
+                    📋 Palette (<span id="palette-summary-count">50</span>)
+                  </button>
+                </div>
                 <div class="q-pane-marks">
                   <span class="tag-pos">Marks: +2.00</span>
                   <span class="tag-neg">Negative: -0.50</span>
@@ -428,6 +444,106 @@
                 <li>Pack your Admit Card, Original Photo ID (Aadhaar/PAN), photocopy, and 2 passport photos.</li>
                 <li>Sleep by 10:30 PM. A well-rested brain gives you a +10 marks advantage in Paper 1 reasoning.</li>
               </ul>
+            </div>
+          </div>
+
+          <!-- Official Exam Day Guidelines & Interactive Checklist -->
+          <div class="exam-day-section" id="exam-day-protocol">
+            <div class="exam-protocol-header">
+              <h3>🛡️ Official IBPS Exam Day Rules & Interactive Packing Checklist</h3>
+              <p>Strict IBPS & PFRDA regulatory compliance requirements for <strong>15 October 2026</strong>. Check off each item before leaving home!</p>
+            </div>
+
+            <!-- Mandatory Documents Checklist -->
+            <div class="protocol-card docs-card">
+              <h4>📋 1. Mandatory Documents (Check Each as You Pack)</h4>
+              <div class="checklist-items" id="exam-checklist">
+                <label class="check-row">
+                  <input type="checkbox" data-check-id="doc_admit" onchange="toggleChecklistItem(this)">
+                  <span class="check-custom"></span>
+                  <div class="check-label-text">
+                    <strong>Printed Call Letter (Admit Card)</strong>
+                    <p>Printed cleanly with a recent passport photograph firmly pasted in the specified space.</p>
+                  </div>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" data-check-id="doc_id_orig" onchange="toggleChecklistItem(this)">
+                  <span class="check-custom"></span>
+                  <div class="check-label-text">
+                    <strong>Original Photo Identity Proof</strong>
+                    <p>Aadhaar Card (with full DOB), PAN Card, Passport, or Voter ID. <em>(E-Aadhaar & ration cards without photo not allowed).</em></p>
+                  </div>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" data-check-id="doc_id_copy" onchange="toggleChecklistItem(this)">
+                  <span class="check-custom"></span>
+                  <div class="check-label-text">
+                    <strong>Clean Photocopy of the EXACT Same ID</strong>
+                    <p>Must match the original ID carried. Both call letter and photocopy will be stapled and submitted in the exam hall.</p>
+                  </div>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" data-check-id="doc_photos" onchange="toggleChecklistItem(this)">
+                  <span class="check-custom"></span>
+                  <div class="check-label-text">
+                    <strong>2 Additional Identical Passport Photographs</strong>
+                    <p>Exact same photo as uploaded during registration, needed for attendance sheet verification.</p>
+                  </div>
+                </label>
+                <label class="check-row">
+                  <input type="checkbox" data-check-id="doc_pen" onchange="toggleChecklistItem(this)">
+                  <span class="check-custom"></span>
+                  <div class="check-label-text">
+                    <strong>Simple Transparent Blue/Black Ballpoint Pen</strong>
+                    <p>For rough sheets and signing attendance sheets. (Rough sheets provided inside lab).</p>
+                  </div>
+                </label>
+              </div>
+
+              <div class="trap-box" style="margin-top: 1rem;">
+                ⚠️ <strong>Crucial Warning:</strong> The photocopy must be of the <em>exact same ID</em> you present in original. If you carry original PAN card, the photocopy MUST be of PAN card, not Aadhaar. Name on ID must match Admit Card character-by-character!
+              </div>
+            </div>
+
+            <!-- Dress Code & Clothing Protocol -->
+            <div class="protocol-card dress-card">
+              <h4>👕 2. Clothing & Dress Code Protocol (IBPS Biometric Hall Rules)</h4>
+              <div class="dress-grid">
+                <div class="dress-box allowed">
+                  <h5>✅ Allowed & Recommended</h5>
+                  <ul>
+                    <li><strong>Half-sleeved</strong> light shirts / t-shirts (no long folded sleeves).</li>
+                    <li>Simple trousers, cotton pants, or jeans without excessive zippers.</li>
+                    <li><strong>Slippers or sandals</strong> with thin soles (easy frisking).</li>
+                    <li>Prescription spectacles (checked during frisking).</li>
+                  </ul>
+                </div>
+                <div class="dress-box barred">
+                  <h5>🚫 Strictly Prohibited</h5>
+                  <ul>
+                    <li><strong>Shoes, boots, high heels</strong> or thick-soled footwear.</li>
+                    <li>Clothes with large buttons, badges, brooches, or metallic decorations.</li>
+                    <li>Smartwatches, digital/analog wristwatches (time is displayed on screen).</li>
+                    <li>Belts with big metallic buckles, jewelry, chains, rings, or earrings.</li>
+                    <li>Wallets, calculators, bluetooth devices, or earphones.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reporting Time & Biometrics -->
+            <div class="protocol-card timing-card">
+              <h4>⏱️ 3. Reporting Time & Biometrics Procedure</h4>
+              <div class="timing-info-grid">
+                <div class="timing-box">
+                  <span class="time-tag">Arrival Window</span>
+                  <p>Reach the exam venue <strong>45 minutes before</strong> the printed reporting time. Test center gates close strictly 15 minutes before the exam begins; no entry is permitted thereafter under any circumstance.</p>
+                </div>
+                <div class="timing-box">
+                  <span class="time-tag">Biometric Capture</span>
+                  <p>Thumb impression and digital photo capture take place before seat allocation. Ensure your fingers are clean and free from ink, chemical residue, or mehendi/henna.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
