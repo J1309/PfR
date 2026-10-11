@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PFRDA Grade A 2026 | Ultimate Exam Readiness Platform</title>
+  <meta name="description" content="Dedicated 4-Day Crash Preparation & IBPS CBT Simulation Platform for PFRDA Grade A Assistant Manager Exam 2026.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark">
+  <div id="app" class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="brand-badge">PFRDA 2026</div>
+        <div class="brand-titles">
+          <h1>Grade A Assistant Manager</h1>
+          <span class="sub-pill">Exam Date: 15 October 2026 (Phase 1)</span>
+        </div>
+      </div>
+
+      <nav class="header-nav">
+        <button id="nav-drill" class="nav-btn active" onclick="switchView('drill')">
+          <span class="icon">🎯</span> Learn & Drill
+        </button>
+        <button id="nav-cbt" class="nav-btn" onclick="switchView('cbt')">
+          <span class="icon">⚡</span> IBPS Exam Simulator
+        </button>
+        <button id="nav-cheatsheet" class="nav-btn" onclick="switchView('cheatsheet')">
+          <span class="icon">📖</span> High-Yield Cheat Sheets
+        </button>
+        <button id="nav-bookmarks" class="nav-btn" onclick="switchView('bookmarks')">
+          <span class="icon">⭐</span> Starred Revision (<span id="bookmark-count">0</span>)
+        </button>
+        <button id="nav-guide" class="nav-btn" onclick="switchView('guide')">
+          <span class="icon">🚀</span> 4-Day Strategy
+        </button>
+      </nav>
+
+      <div class="header-controls">
+        <div class="countdown-badge" title="Time remaining until 15 October 2026">
+          <span class="pulse-dot"></span>
+          <span id="countdown-timer">4 Days Remaining</span>
+        </div>
+        <button id="theme-toggle" class="icon-btn" title="Toggle Theme" onclick="toggleTheme()">
+          🌓
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+      
+      <!-- VIEW 1: LEARN & DRILL MODE -->
+      <section id="view-drill" class="view-panel active">
+        <div class="drill-layout">
+          <!-- Sidebar: Category & Topic Selectors -->
+          <aside class="drill-sidebar">
+            <div class="sidebar-header">
+              <h3>Syllabus Modules</h3>
+              <span class="badge-total" id="drill-total-badge">180+ Qs</span>
+            </div>
+
+            <div class="module-group">
+              <div class="group-title">PAPER 2: PROFESSIONAL KNOWLEDGE (100 Marks)</div>
+              <button class="topic-btn active" data-topic="pension" onclick="selectTopic('pension')">
+                <span class="topic-icon">🏛️</span>
+                <div class="topic-info">
+                  <span class="topic-name">Pension & PFRDA (Top Priority)</span>
+                  <span class="topic-stats" id="stats-pension">35 Questions</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="management" onclick="selectTopic('management')">
+                <span class="topic-icon">👥</span>
+                <div class="topic-info">
+                  <span class="topic-name">Management & Leadership</span>
+                  <span class="topic-stats" id="stats-management">30 Questions</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="finance" onclick="selectTopic('finance')">
+                <span class="topic-icon">📈</span>
+                <div class="topic-info">
+                  <span class="topic-name">Finance & Financial System</span>
+                  <span class="topic-stats" id="stats-finance">30 Questions</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="companies" onclick="selectTopic('companies')">
+                <span class="topic-icon">📜</span>
+                <div class="topic-info">
+                  <span class="topic-name">Companies Act & Economics</span>
+                  <span class="topic-stats" id="stats-companies">25 Questions</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="commerce" onclick="selectTopic('commerce')">
+                <span class="topic-icon">📊</span>
+                <div class="topic-info">
+                  <span class="topic-name">Commerce & Costing Essentials</span>
+                  <span class="topic-stats" id="stats-commerce">25 Questions</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="module-group">
+              <div class="group-title">PAPER 1: APTITUDE & AWARENESS (100 Marks | 60 Mins)</div>
+              <button class="topic-btn" data-topic="paper1_quant" onclick="selectTopic('paper1_quant')">
+                <span class="topic-icon">🔢</span>
+                <div class="topic-info">
+                  <span class="topic-name">Quantitative Aptitude (Speed Math)</span>
+                  <span class="topic-stats" id="stats-paper1_quant">Series, %, Profit/Loss, Time-Work</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="paper1_reasoning" onclick="selectTopic('paper1_reasoning')">
+                <span class="topic-icon">🧠</span>
+                <div class="topic-info">
+                  <span class="topic-name">Reasoning Ability (Puzzles & Logic)</span>
+                  <span class="topic-stats" id="stats-paper1_reasoning">Syllogisms, Inequalities, Directions</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="paper1_english" onclick="selectTopic('paper1_english')">
+                <span class="topic-icon">📚</span>
+                <div class="topic-info">
+                  <span class="topic-name">English Language (Grammar & Vocab)</span>
+                  <span class="topic-stats" id="stats-paper1_english">Error Spotting, Prepositions, Rules</span>
+                </div>
+              </button>
+              <button class="topic-btn" data-topic="paper1_ga" onclick="selectTopic('paper1_ga')">
+                <span class="topic-icon">📰</span>
+                <div class="topic-info">
+                  <span class="topic-name">Financial & Pension GA</span>
+                  <span class="topic-stats" id="stats-paper1_ga">Budget, Regulators, Social Schemes</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="sidebar-card">
+              <h4>🎯 Triage Rule of Thumb</h4>
+              <p>For an MCA graduate, clearing Paper 2 requires getting <strong>18–22 marks</strong>. Focus heavily on <strong>Pension, Management, & Financial Markets</strong> to safely cross it!</p>
+            </div>
+          </aside>
+
+          <!-- Drill Main Area -->
+          <div class="drill-arena">
+            <div class="arena-toolbar">
+              <div class="topic-heading">
+                <h2 id="current-topic-title">Pension Sector & PFRDA</h2>
+                <p id="current-topic-desc">PFRDA Act 2013, NPS Tier-1 & Tier-2, APY Rules, CRAs, PFMs</p>
+              </div>
+
+              <div class="toolbar-actions">
+                <div class="progress-indicator">
+                  Question <span id="drill-curr-idx">1</span> of <span id="drill-total-idx">35</span>
+                </div>
+                <button id="btn-star-question" class="action-btn" onclick="toggleStarCurrentQuestion()">
+                  ⭐ Star Question
+                </button>
+                <button class="action-btn secondary" onclick="shuffleCurrentTopic()">
+                  🔀 Shuffle
+                </button>
+              </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="question-card" id="drill-question-card">
+              <div class="question-meta">
+                <span class="badge-source" id="drill-q-source">Memory-Based Previous Year Pattern</span>
+                <span class="badge-difficulty" id="drill-q-difficulty">High Yield</span>
+              </div>
+
+              <div class="question-text" id="drill-q-text">
+                Loading question...
+              </div>
+
+              <div class="options-grid" id="drill-options-container">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <!-- Explanation Drawer -->
+              <div class="explanation-box hidden" id="drill-explanation-box">
+                <div class="exp-header">
+                  <span class="exp-tag" id="exp-status-tag">Explanation</span>
+                  <span class="exp-takeaway-tag">Core Takeaway</span>
+                </div>
+                <div class="exp-content" id="drill-exp-content"></div>
+                <div class="exp-takeaway" id="drill-exp-takeaway"></div>
+              </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="arena-footer">
+              <button class="btn-nav" id="btn-prev-q" onclick="navigateDrill(-1)">← Previous</button>
+              <div class="shortcuts-hint">Tip: Use 1-5 keys to pick options, or click to check.</div>
+              <button class="btn-nav primary" id="btn-next-q" onclick="navigateDrill(1)">Next Question →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: IBPS EXAM SIMULATOR -->
+      <section id="view-cbt" class="view-panel">
+        <div id="cbt-pre-screen" class="cbt-pre-screen">
+          <div class="cbt-welcome-card">
+            <div class="ibps-header-banner">
+              <h2>PFRDA Grade A (Phase 1) Computer-Based Test Simulation</h2>
+              <span class="banner-sub">Authentic IBPS Interface & Penalty Engine</span>
+            </div>
+            <div class="cbt-rules-grid">
+              <div class="rule-box">
+                <h4>⏱️ Real Timing & Format</h4>
+                <ul>
+                  <li><strong>Paper 1:</strong> 60 Minutes (General Aptitude, GA, Quant, Reasoning)</li>
+                  <li><strong>Paper 2:</strong> 40 Minutes (Stream Specific / General Stream)</li>
+                  <li>Switch between papers or take the dedicated <strong>Paper 2 Crash Sprint</strong>.</li>
+                </ul>
+              </div>
+              <div class="rule-box">
+                <h4>⚖️ Marking Scheme & Penalties</h4>
+                <ul>
+                  <li><strong>+1.00 Mark</strong> (Paper 1) / <strong>+2.00 Marks</strong> (Paper 2) for correct answer.</li>
+                  <li><strong>-0.25 (1/4th)</strong> penalty for incorrect answer.</li>
+                  <li><strong>0 marks</strong> for unattempted questions.</li>
+                </ul>
+              </div>
+              <div class="rule-box">
+                <h4>🎯 Phase 1 Cut-off Simulator</h4>
+                <ul>
+                  <li>Calculates exact <strong>Net Score</strong> after penalty deduction.</li>
+                  <li>Evaluates sectional cutoff clearance + overall aggregate cutoff (~40 marks).</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="cbt-mode-picker">
+              <h3>Select Simulation Test Mode</h3>
+              <div class="mode-cards" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+                <div class="mode-card active" onclick="selectCbtTestMode('paper2')">
+                  <div class="mode-title">🎯 Paper 2 Master Test (50 Questions)</div>
+                  <div class="mode-desc">The decider paper! Pension, Management, Finance, Companies Act & Commerce. (100 Marks, 40 Mins).</div>
+                </div>
+                <div class="mode-card" onclick="selectCbtTestMode('paper1')">
+                  <div class="mode-title">📘 Paper 1 Speed Mock (Aptitude & GA)</div>
+                  <div class="mode-desc">Quant, Reasoning, English & Financial GA. Test speed & accuracy. (100 Marks, 60 Mins).</div>
+                </div>
+                <div class="mode-card" onclick="selectCbtTestMode('full')">
+                  <div class="mode-title">⚡ Combined Phase 1 Mock (Paper 1 + Paper 2)</div>
+                  <div class="mode-desc">Full 100-minute combined readiness test with authentic section switching.</div>
+                </div>
+              </div>
+
+              <button class="btn-start-cbt" onclick="startCbtExam()">I am ready to begin the test →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CBT Active Screen -->
+        <div id="cbt-exam-screen" class="cbt-exam-screen hidden">
+          <!-- IBPS Top Bar -->
+          <div class="ibps-topbar">
+            <div class="ibps-candidate">
+              <span class="avatar-icon">👤</span>
+              <div>
+                <strong>Candidate:</strong> MCA Graduate (General Stream)
+                <span class="exam-subtext">Roll: 2026-PFRDA-A</span>
+              </div>
+            </div>
+            <div class="ibps-paper-switch">
+              <span class="curr-paper-label" id="cbt-paper-title">Paper 2: Professional Knowledge</span>
+            </div>
+            <div class="ibps-timer-box">
+              <span class="timer-label">Time Left:</span>
+              <span class="timer-digits" id="cbt-timer">40:00</span>
+            </div>
+          </div>
+
+          <div class="ibps-workspace">
+            <!-- Question Arena -->
+            <div class="ibps-q-pane">
+              <div class="q-pane-header">
+                <span id="cbt-q-number-title">Question No. 1</span>
+                <div class="q-pane-marks">
+                  <span class="tag-pos">Marks: +2.00</span>
+                  <span class="tag-neg">Negative: -0.50</span>
+                </div>
+              </div>
+
+              <div class="cbt-q-body" id="cbt-question-text">
+                Question text loading...
+              </div>
+
+              <div class="cbt-options" id="cbt-options-container">
+                <!-- Injected via JavaScript -->
+              </div>
+
+              <div class="ibps-action-bar">
+                <button class="btn-ibps yellow" onclick="cbtMarkForReview()">Mark for Review & Next</button>
+                <button class="btn-ibps grey" onclick="cbtClearResponse()">Clear Response</button>
+                <button class="btn-ibps green" onclick="cbtSaveAndNext()">Save & Next</button>
+              </div>
+            </div>
+
+            <!-- IBPS Palette & Legend -->
+            <div class="ibps-palette-pane">
+              <div class="palette-legend">
+                <div class="legend-item"><span class="legend-badge answered">0</span> Answered</div>
+                <div class="legend-item"><span class="legend-badge not-answered">0</span> Not Answered</div>
+                <div class="legend-item"><span class="legend-badge not-visited">0</span> Not Visited</div>
+                <div class="legend-item"><span class="legend-badge review">0</span> Marked for Review</div>
+                <div class="legend-item"><span class="legend-badge ans-review">0</span> Ans & Review</div>
+              </div>
+
+              <div class="palette-grid-container">
+                <h4>Question Palette</h4>
+                <div class="palette-grid" id="cbt-palette-grid">
+                  <!-- Buttons 1 to N injected via JS -->
+                </div>
+              </div>
+
+              <div class="submit-wrapper">
+                <button class="btn-submit-exam" onclick="confirmSubmitCbt()">Submit Test</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CBT Results Screen -->
+        <div id="cbt-result-screen" class="cbt-result-screen hidden">
+          <!-- Injected dynamically upon submission -->
+        </div>
+      </section>
+
+      <!-- VIEW 3: HIGH-YIELD CHEAT SHEETS -->
+      <section id="view-cheatsheet" class="view-panel">
+        <div class="cheatsheet-layout">
+          <div class="cheat-search-wrapper">
+            <span style="font-size: 1.1rem;">🔍</span>
+            <input type="text" id="cheat-search-input" class="cheat-search-input" placeholder="Type to search any formula or concept (e.g. APY, Maslow, T-Bill, CSR 135, Syllogism, BEP)..." oninput="filterCheatSheets(this.value)">
+          </div>
+
+          <div class="cheat-tabs">
+            <button class="cheat-tab active" onclick="showCheatSheet('pension')">🏛️ Pension & PFRDA</button>
+            <button class="cheat-tab" onclick="showCheatSheet('management')">👥 Management Thinkers</button>
+            <button class="cheat-tab" onclick="showCheatSheet('finance')">📈 Financial Markets</button>
+            <button class="cheat-tab" onclick="showCheatSheet('quant')">🔢 Quant Shortcuts</button>
+            <button class="cheat-tab" onclick="showCheatSheet('reasoning')">🧠 Reasoning Tricks</button>
+            <button class="cheat-tab" onclick="showCheatSheet('english')">✍️ 10 Grammar Rules</button>
+            <button class="cheat-tab" onclick="showCheatSheet('ga')">📰 Financial GA</button>
+            <button class="cheat-tab" onclick="showCheatSheet('companies')">📜 Companies Act</button>
+            <button class="cheat-tab" onclick="showCheatSheet('commerce')">📊 Commerce & Costing</button>
+            <button class="cheat-tab" onclick="showCheatSheet('economics')">🌐 Macroeconomics</button>
+          </div>
+
+          <div class="cheat-body" id="cheatsheet-content">
+            <!-- Dynamically populated from data/cheatSheets.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: STARRED BOOKMARKS -->
+      <section id="view-bookmarks" class="view-panel">
+        <div class="bookmarks-container">
+          <div class="bookmarks-header">
+            <div>
+              <h2>⭐ Starred Revision Deck</h2>
+              <p>Questions you saved during your practice sessions. Perfect for your final review on October 14.</p>
+            </div>
+            <button class="action-btn danger" onclick="clearAllBookmarks()">Clear All Starred</button>
+          </div>
+
+          <div id="bookmarks-list" class="bookmarks-list">
+            <!-- Dynamically rendered -->
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 5: 4-DAY STRATEGY GUIDE -->
+      <section id="view-guide" class="view-panel">
+        <div class="guide-container">
+          <div class="guide-hero">
+            <h2>The 4-Day Zero-to-Qualifying Playbook</h2>
+            <p>Tailored specifically for an MCA Graduate with 0 previous commerce background.</p>
+          </div>
+
+          <div class="days-timeline">
+            <div class="day-card current">
+              <div class="day-badge">Day 1: Oct 11</div>
+              <h3>Master Pension Sector & Management</h3>
+              <p><strong>Goal:</strong> Secure 20 guaranteed marks in Paper 2.</p>
+              <ul>
+                <li>Read the <strong>Pension Sector Cheat Sheet</strong> (PFRDA Act, NPS Tier 1 vs 2, APY age & slabs).</li>
+                <li>Complete all 35 questions in the <strong>Pension & PFRDA Drill</strong>.</li>
+                <li>Complete all 30 questions in the <strong>Management Drill</strong> (Maslow, Herzberg, McGregor).</li>
+                <li>Target study time: 4 to 5 hours.</li>
+              </ul>
+            </div>
+
+            <div class="day-card">
+              <div class="day-badge">Day 2: Oct 12</div>
+              <h3>Financial System & High-Yield Paper 1</h3>
+              <p><strong>Goal:</strong> Solidify financial terminology and build high-speed accuracy in Paper 1.</p>
+              <ul>
+                <li>Study Money Market instruments (T-Bills, CP, CD, Call Money, Repo Rate).</li>
+                <li>Run through the <strong>Finance & Regulators Drill</strong> (30 Questions).</li>
+                <li>Run through the <strong>Quant, Reasoning & English Drill</strong> (Leverage your MCA analytical edge).</li>
+                <li>Target study time: 4 to 5 hours.</li>
+              </ul>
+            </div>
+
+            <div class="day-card">
+              <div class="day-badge">Day 3: Oct 13</div>
+              <h3>Companies Act, Costing & Full IBPS Mock</h3>
+              <p><strong>Goal:</strong> Learn low-hanging sections of Companies Act and practice exam pacing.</p>
+              <ul>
+                <li>Review Companies Act highlights (OPC, Director limits, Board meetings).</li>
+                <li>Take a timed <strong>Paper 2 IBPS Simulation Test (40 mins)</strong>.</li>
+                <li>Analyze penalties! If your accuracy is below 75%, stop guessing on 50-50 questions.</li>
+              </ul>
+            </div>
+
+            <div class="day-card">
+              <div class="day-badge">Day 4: Oct 14</div>
+              <h3>The Final Polish & Revision Deck</h3>
+              <p><strong>Goal:</strong> Retain facts and ensure psychological calmness.</p>
+              <ul>
+                <li>Review all questions inside your <strong>Starred Revision Deck</strong>.</li>
+                <li>Re-read the APY and NPS quick reference table.</li>
+                <li>Pack your Admit Card, Original Photo ID (Aadhaar/PAN), photocopy, and 2 passport photos.</li>
+                <li>Sleep by 10:30 PM. A well-rested brain gives you a +10 marks advantage in Paper 1 reasoning.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data/pensionQuestions.js"></script>
+  <script src="js/data/managementQuestions.js"></script>
+  <script src="js/data/financeQuestions.js"></script>
+  <script src="js/data/companiesEconomicsQuestions.js"></script>
+  <script src="js/data/commerceCostingQuestions.js"></script>
+  <script src="js/data/paper1Questions.js"></script>
+  <script src="js/data/cheatSheets.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
