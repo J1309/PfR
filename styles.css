@@ -1610,26 +1610,519 @@ body {
   line-height: 1.6;
 }
 
-/* Responsive Styles */
+/* ==========================================================================
+   Comprehensive Mobile Responsive Architecture (Max Width: 900px)
+   ========================================================================== */
 @media (max-width: 900px) {
+  body {
+    padding-bottom: 72px; /* Reserve space for fixed mobile bottom nav */
+  }
+
+  /* Header on Mobile */
+  .app-header {
+    padding: 0.65rem 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .header-brand {
+    gap: 0.5rem;
+  }
+
+  .brand-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .brand-titles h1 {
+    font-size: 0.92rem;
+    line-height: 1.2;
+  }
+
+  .sub-pill {
+    font-size: 0.68rem;
+  }
+
+  .countdown-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.68rem;
+  }
+
+  /* Transform Header Nav into App-Like Fixed Bottom Navigation Bar */
+  .header-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: none;
+    border-top: 1px solid var(--border-subtle);
+    border-radius: 0;
+    padding: 0.35rem 0.25rem;
+    justify-content: space-around;
+    gap: 0.15rem;
+    z-index: 9999;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  body.theme-light .header-nav {
+    background: rgba(255, 255, 255, 0.95);
+    border-top-color: #cbd5e1;
+  }
+
+  .nav-btn {
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.35rem 0.25rem;
+    font-size: 0.65rem;
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+  }
+
+  .nav-btn .icon {
+    font-size: 1.2rem;
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* Drill Mode on Mobile */
   .drill-layout {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
+
   .drill-sidebar {
     border-right: none;
     border-bottom: 1px solid var(--border-subtle);
-    max-height: 250px;
+    padding: 0.75rem 0.85rem;
+    gap: 0.65rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
   }
-  .ibps-workspace {
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sidebar-card {
+    display: none; /* Hide heavy explanation card on mobile to save vertical space */
+  }
+
+  .module-group {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.35rem;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .module-group::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .group-title {
+    display: none; /* Hide repetitive group titles in horizontal scroll mode */
+  }
+
+  .topic-btn {
+    flex-shrink: 0;
+    padding: 0.45rem 0.85rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .topic-icon {
+    font-size: 1rem;
+  }
+
+  .topic-info .topic-name {
+    font-size: 0.78rem;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .topic-info .topic-stats {
+    display: none; /* Hide subtitle stats in compact pills */
+  }
+
+  /* Drill Arena on Mobile */
+  .drill-arena {
+    padding: 1rem 0.85rem 2rem 0.85rem;
+    gap: 1rem;
+  }
+
+  .arena-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .topic-heading h2 {
+    font-size: 1.15rem;
+  }
+
+  .topic-heading p {
+    font-size: 0.75rem;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .progress-indicator {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  .action-btn {
+    font-size: 0.72rem;
+    padding: 0.4rem 0.65rem;
+  }
+
+  .question-card {
+    padding: 1.15rem 1rem;
+    gap: 1.15rem;
+    border-radius: var(--radius-md);
+  }
+
+  .question-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .options-grid {
+    gap: 0.6rem;
+  }
+
+  .option-item {
+    padding: 0.75rem 0.85rem;
+    gap: 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .option-key {
+    width: 26px;
+    height: 26px;
+    font-size: 0.72rem;
+  }
+
+  .option-text {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .explanation-box {
+    padding: 1rem 1.15rem;
+    gap: 0.65rem;
+  }
+
+  .exp-content {
+    font-size: 0.84rem;
+  }
+
+  .exp-takeaway {
+    font-size: 0.78rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .arena-footer {
+    gap: 0.65rem;
+  }
+
+  .btn-nav {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.82rem;
+  }
+
+  .shortcuts-hint {
+    display: none; /* Hide desktop keyboard hints on touch devices */
+  }
+
+  /* CBT Exam Simulator on Mobile */
+  .cbt-pre-screen, .cbt-result-screen {
+    padding: 1.25rem 0.85rem;
+  }
+
+  .cbt-welcome-card, .result-card {
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .ibps-header-banner h2 {
+    font-size: 1.25rem;
+  }
+
+  .cbt-rules-grid {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
-  .score-stats-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+
   .mode-cards {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
-  .header-nav {
-    display: none; /* Mobile navigation simplified */
+
+  .mode-card {
+    padding: 1rem;
+  }
+
+  .btn-start-cbt {
+    width: 100%;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* CBT Active Exam Layout on Mobile */
+  .cbt-exam-screen {
+    height: auto;
+    min-height: calc(100vh - 65px);
+  }
+
+  .ibps-topbar {
+    padding: 0.5rem 0.85rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .ibps-candidate {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.75rem;
+  }
+
+  .curr-paper-label {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .ibps-timer-box {
+    align-self: flex-end;
+  }
+
+  .timer-digits {
+    font-size: 1.1rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .ibps-workspace {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .ibps-q-pane {
+    padding: 1rem 0.85rem;
+    gap: 1.15rem;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .cbt-q-body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .cbt-opt-label {
+    padding: 0.7rem 0.85rem;
+    font-size: 0.88rem;
+  }
+
+  .ibps-action-bar {
+    position: static;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .btn-ibps {
+    flex: 1 1 45%;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+  }
+
+  .btn-ibps.green {
+    flex: 1 1 100%; /* Prominent full-width Save & Next button */
+    order: -1;      /* Placed top for instant reach */
+  }
+
+  .ibps-palette-pane {
+    padding: 1rem 0.85rem;
+    gap: 1rem;
+  }
+
+  .palette-legend {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+    font-size: 0.68rem;
+    padding: 0.55rem;
+  }
+
+  .palette-grid {
+    max-height: 220px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.4rem;
+  }
+
+  .palette-btn {
+    height: 36px;
+    font-size: 0.8rem;
+  }
+
+  .submit-wrapper {
+    position: static;
+    padding-top: 0.75rem;
+  }
+
+  .btn-submit-exam {
+    padding: 0.85rem;
+    font-size: 0.92rem;
+  }
+
+  /* Result Performance Card on Mobile */
+  .result-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .verdict-pill {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.85rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .score-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .stat-box {
+    padding: 0.85rem 0.5rem;
+  }
+
+  .stat-box .val {
+    font-size: 1.25rem;
+  }
+
+  .result-actions {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .result-actions .btn-nav {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Cheat Sheets on Mobile */
+  .cheatsheet-layout {
+    padding: 1rem 0.85rem 2rem 0.85rem;
+    gap: 1.15rem;
+  }
+
+  .cheat-search-wrapper {
+    padding: 0.55rem 0.85rem;
+  }
+
+  .cheat-search-input {
+    font-size: 0.82rem;
+  }
+
+  .cheat-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    gap: 0.45rem;
+    padding-bottom: 0.45rem;
+    scrollbar-width: none;
+  }
+
+  .cheat-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cheat-tab {
+    flex-shrink: 0;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
+  }
+
+  .cheat-card {
+    padding: 1.15rem 1rem;
+    gap: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .cheat-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .cheat-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .cheat-item {
+    padding: 0.95rem;
+  }
+
+  .diff-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .cheat-table th, .cheat-table td {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.76rem;
+  }
+
+  /* Guide and Bookmarks on Mobile */
+  .bookmarks-container, .guide-container {
+    padding: 1.25rem 0.85rem 2rem 0.85rem;
+    gap: 1.25rem;
+  }
+
+  .bookmarks-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .guide-hero h2 {
+    font-size: 1.35rem;
+  }
+
+  .day-card {
+    padding: 1.15rem 1rem;
   }
 }
+
