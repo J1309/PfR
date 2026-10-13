@@ -1,7 +1,7 @@
-// PFRDA Grade A - Companies Act, Economics & Emerging Tech Question Bank
-// High-Yield Questions on Companies Act 2013, Macroeconomics, and Financial AI/Media
+// PFRDA Grade A - Companies Act 2013 Question Bank
+// Priority: 🟡 Medium
 
-const companiesEconomicsQuestions = [
+const companiesActQuestions = [
   {
     id: "co_01",
     source: "Companies Act 2013",
@@ -99,134 +99,6 @@ const companiesEconomicsQuestions = [
     takeaway: "Small Company Thresholds: Paid-up capital ≤ ₹4 Crore AND Turnover ≤ ₹40 Crore."
   },
   {
-    id: "co_07",
-    source: "Macroeconomics",
-    difficulty: "High Yield",
-    question: "What is the official inflation metric used as the nominal anchor by the RBI's Monetary Policy Committee, and what is its target band?",
-    options: [
-      "Wholesale Price Index (WPI); target 3% ± 1%",
-      "Consumer Price Index - Combined (CPI-C); target 4% with a tolerance band of ± 2% (2% to 6%)",
-      "GDP Deflator; target 5% ± 2%",
-      "Index of Industrial Production (IIP); target 4% ± 1%",
-      "Core CPI; target 2% ± 1%"
-    ],
-    correctIndex: 1,
-    explanation: "Under the flexible inflation targeting framework adopted under the RBI Act, the official target is CPI-Combined inflation at 4% with a tolerance band of +/- 2% (i.e., a range of 2% to 6%).",
-    takeaway: "RBI Inflation Target: Headline CPI = 4% (Tolerance band: 2% to 6%)."
-  },
-  {
-    id: "co_08",
-    source: "Macroeconomics",
-    difficulty: "High Yield",
-    question: "What does 'Fiscal Deficit' represent in the Union Budget of India?",
-    options: [
-      "Total Revenue Receipts minus Total Revenue Expenditure",
-      "Total Expenditure minus Total Receipts excluding Borrowings (i.e., Net borrowing requirement of the government)",
-      "Fiscal Deficit minus Interest Payments",
-      "Total Imports minus Total Exports",
-      "Budget Deficit plus Currency in Circulation"
-    ],
-    correctIndex: 1,
-    explanation: "Fiscal Deficit is the excess of total budget expenditure over total receipts excluding borrowings. In essence, it measures the total borrowing and debt liability incurred by the government during the fiscal year.",
-    takeaway: "Fiscal Deficit = Total Expenditure − (Total Receipts excluding borrowings). It equals total borrowings."
-  },
-  {
-    id: "co_09",
-    source: "Macroeconomics",
-    difficulty: "Foundational",
-    question: "What is 'Primary Deficit' in public finance?",
-    options: [
-      "Fiscal Deficit minus Interest Payments",
-      "Revenue Deficit minus Capital Expenditure",
-      "Fiscal Deficit plus Subsidies",
-      "Gross Tax Revenue minus State Transfers",
-      "Trade Deficit minus Current Account Deficit"
-    ],
-    correctIndex: 0,
-    explanation: "Primary Deficit = Fiscal Deficit - Interest Payments. It indicates how much government borrowing is needed to meet expenses other than ongoing interest liabilities on past debts.",
-    takeaway: "Primary Deficit = Fiscal Deficit − Interest Payments."
-  },
-  {
-    id: "co_10",
-    source: "Microeconomics",
-    difficulty: "Conceptual",
-    question: "Goods for which quantity demanded increases when the price of the good increases (violating the traditional Law of Demand) are termed:",
-    options: [
-      "Normal Goods",
-      "Complementary Goods",
-      "Giffen Goods or Veblen Goods",
-      "Substitute Goods",
-      "Public Goods"
-    ],
-    correctIndex: 2,
-    explanation: "Giffen goods (highly inferior staple goods where negative income effect outweighs substitution effect) and Veblen goods (luxury/status goods) show an upward-sloping demand curve, violating the standard downward-sloping law of demand.",
-    takeaway: "Violation of Law of Demand = Giffen Goods (inferior staple) & Veblen Goods (conspicuous luxury)."
-  },
-  {
-    id: "co_11",
-    source: "Balance of Payments",
-    difficulty: "High Yield",
-    question: "Which of the following items is recorded in the 'Capital Account' of the Balance of Payments (BoP) rather than the 'Current Account'?",
-    options: [
-      "Export of merchandise software",
-      "Import of crude oil",
-      "Inward worker remittances from abroad",
-      "Foreign Direct Investment (FDI) inflows",
-      "Payment of interest on foreign sovereign loans"
-    ],
-    correctIndex: 3,
-    explanation: "The Current Account records trade in goods, services, and transfer payments/remittances/interest. The Capital Account records asset transfers and financial claims, such as Foreign Direct Investment (FDI), Foreign Portfolio Investment (FPI), and External Commercial Borrowings (ECB).",
-    takeaway: "FDI, FPI, and External Loans = Capital Account. Goods, Services, Remittances = Current Account."
-  },
-  {
-    id: "co_12",
-    source: "Financial Tech & AI",
-    difficulty: "Recent Addition",
-    question: "In the modern Indian financial ecosystem, what is the role of an 'Account Aggregator' (AA) regulated by the Reserve Bank of India?",
-    options: [
-      "To lend personal loans directly from its own balance sheet",
-      "To act as a consent-based financial data-sharing intermediary that facilitates encrypted sharing of financial information across institutions without storing customer data",
-      "To merge multiple bank accounts into one single account number",
-      "To invest customer funds in high-yield mutual funds",
-      "To act as a debt collection agency for NPA accounts"
-    ],
-    correctIndex: 1,
-    explanation: "An Account Aggregator (AA) is an RBI-regulated entity (NBFC-AA) that facilitates seamless, encrypted, consent-based retrieval and sharing of financial information between Financial Information Providers (FIPs) and Financial Information Users (FIUs). It does not store or see the customer's data.",
-    takeaway: "Account Aggregator (AA) = Consent-driven, encrypted financial data sharing intermediary."
-  },
-  {
-    id: "co_13",
-    source: "Financial Communication & Media",
-    difficulty: "Recent Addition",
-    question: "What is 'Greenwashing' in sustainable finance and corporate financial reporting?",
-    options: [
-      "Using eco-friendly paper to print annual financial statements",
-      "Misleading investors by exaggerating or falsely claiming environmentally friendly, green, or ESG-compliant practices to gain financial advantage",
-      "Investing 100% of corporate profits in solar projects",
-      "Laundering illicit funds through agricultural trade",
-      "Waiving environmental clearance fees for manufacturing units"
-    ],
-    correctIndex: 1,
-    explanation: "Greenwashing refers to the practice of providing deceptive, misleading, or unsubstantiated claims about the environmental benefits or ESG credentials of a company's products, services, or investments.",
-    takeaway: "Greenwashing = Deceptively portraying products/investments as eco-friendly or ESG-compliant."
-  },
-  {
-    id: "co_14",
-    source: "Financial AI & Algo Trading",
-    difficulty: "Recent Addition",
-    question: "What is 'Algorithmic Trading' (Algo Trading) in securities and commodities markets?",
-    options: [
-      "Trading based on tips shared over social media channels",
-      "Executing trading orders using automated pre-programmed software instructions accounting for variables like time, price, and volume without human intervention",
-      "Investing only in artificial intelligence startups",
-      "Fixing stock prices using blockchain consensus",
-      "A banking protocol for clearing checks"
-    ],
-    correctIndex: 1,
-    explanation: "Algorithmic trading (or automated/black-box trading) uses computer algorithms to automatically execute trades at high speed and frequency based on predefined rules regarding price, timing, and mathematical models.",
-    takeaway: "Algo Trading = Automated execution of stock/derivative orders via pre-programmed computer code."
-  },
-  {
     id: "co_15",
     source: "Companies Act 2013",
     difficulty: "High Yield",
@@ -244,6 +116,10 @@ const companiesEconomicsQuestions = [
   }
 ];
 
+// Backward compatibility — keep the old name working
+const companiesEconomicsQuestions = companiesActQuestions;
+
 if (typeof window !== 'undefined') {
-  window.companiesEconomicsQuestions = companiesEconomicsQuestions;
+  window.companiesActQuestions = companiesActQuestions;
+  window.companiesEconomicsQuestions = companiesActQuestions;
 }

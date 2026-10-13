@@ -7,9 +7,22 @@ A high-performance, offline-first exam readiness and CBT (Computer-Based Test) s
 ## 🌟 Key Features
 
 ### 1. 🎯 Learn & Drill Mode (Active Recall)
-* **Complete Syllabus Coverage:**
-  * **Paper 2 (Domain Knowledge):** Pension Sector & PFRDA Act 2013, Management & Leadership, Finance & Financial Markets, Companies Act 2013, Commerce & Costing Essentials, Macroeconomics.
-  * **Paper 1 (Aptitude & Awareness):** Quantitative Aptitude (Speed Math), Reasoning Ability (Logic & Puzzles), English Language (10 Golden Grammar Rules), Financial & Pension General Awareness.
+* **Paper 2 Prioritized Topic Architecture:**
+  | Priority | Topic | Key Focus |
+  |---|---|---|
+  | 🔴 **Highest** | **Pension Sector & PFRDA Architecture** | PFRDA Act 2013, NPS Tier 1 & 2, APY, UPS 2024, NPS Vatsalya, CRA, PFM |
+  | 🔴 **High** | **Management & Leadership** | Maslow, Herzberg, McGregor, Vroom, Blake & Mouton, Fayol, Taylor |
+  | 🔴 **High** | **Finance & Financial System** | Money Market, Capital Market, RBI, SEBI, IFSCA, Monetary Policy |
+  | 🟡 **Medium-High** | **Economics, Budget & Economic Survey** | Macroeconomics, Union Budget 2024-25, Deficits, Inflation, Survey 2024 |
+  | 🟡 **Medium** | **Companies Act 2013** | Company Types (OPC/Pvt/Public), Board Meetings, CSR Sec 135 |
+  | 🟡 **Medium** | **AI / ML & FinTech** | ML Types, Neural Nets, Algo Trading, Robo-Advisory, IndiaAI Mission |
+  | 🟠 **Medium** | **Commerce & Costing Essentials** | Golden Rules, Trial Balance, Break-Even Analysis, P/V Ratio, Marginal Costing |
+  | 🟢 **Quick Revision** | **Media, Marketing & Communication** | Kotler 4Ps & 7Ps, STP, Push vs Pull, IMC, Digital Marketing, ASCI |
+* **Paper 1 (Aptitude & Awareness):**
+  * Quantitative Aptitude (Speed Math, Series, %, Profit/Loss)
+  * Reasoning Ability (Logic, Syllogisms, Inequalities, Puzzles)
+  * English Language (10 Golden Grammar Rules, Error Spotting)
+  * Financial & Pension General Awareness (Union Budget, Regulators, Social Schemes)
 * **Instant Explanations:** Immediate answer validation with comprehensive concept explanations, traps to avoid, and 1-line memory takeaways.
 * **Keyboard Navigation:** Rapid drills using keys `1`–`5` for options, `N` for next, `P` for previous, and `S` to star.
 
@@ -23,7 +36,7 @@ A high-performance, offline-first exam readiness and CBT (Computer-Based Test) s
 ### 3. 📖 High-Yield Cheat Sheets Hub
 * Visual, structured revision notes:
   * ⚡ **60-Second Flash Numbers:** Quick numbers at a glance.
-  * 📊 **Side-by-Side Comparison Tables:** NPS Tier-I vs Tier-II, Theory X vs Theory Y, Money Market Instruments, Company Forms.
+  * 📊 **Side-by-Side Comparison Tables:** NPS Tier-I vs Tier-II, Motivation Theorists, Deficit Hierarchy, ML Paradigms, Marketing 4Ps vs 7Ps.
   * ⚠️ **Classic IBPS Traps:** Highlighting subtle tricks examiners use in multiple-choice options.
   * 💡 **Memory Mnemonics:** Easy mental shortcuts.
   * 🔍 **Real-Time Concept Search:** Search across all cheat sheets instantly.
@@ -61,11 +74,14 @@ Then navigate to `http://localhost:3000`.
 └── js/
     ├── app.js                           # Core application engine & CBT simulation logic
     └── data/
-        ├── pensionQuestions.js          # PFRDA Act, NPS, APY, CRAs, PFMs
-        ├── managementQuestions.js       # Motivation, Leadership, Fayol & Taylor
-        ├── financeQuestions.js          # Money Market, RBI, Banking, Financial System
-        ├── companiesEconomicsQuestions.js # Companies Act 2013, Macroeconomics, FinTech
-        ├── commerceCostingQuestions.js  # Accounting Standards, Marginal Costing, BEP
+        ├── pensionQuestions.js          # 🔴 Highest: PFRDA Act, NPS, APY, UPS, Vatsalya
+        ├── managementQuestions.js       # 🔴 High: Motivation, Leadership, Fayol & Taylor
+        ├── financeQuestions.js          # 🔴 High: Money Market, RBI, Banking, Financial System
+        ├── economicsQuestions.js        # 🟡 Med-High: Macroeconomics, Union Budget, Survey
+        ├── companiesEconomicsQuestions.js # 🟡 Med: Companies Act 2013 (Directors, CSR, Meetings)
+        ├── aiMlQuestions.js             # 🟡 Med: AI/ML, Algo Trading, FinTech, IndiaAI Mission
+        ├── commerceCostingQuestions.js  # 🟠 Med: Accounting Standards, Marginal Costing, BEP
+        ├── mediaMarketingQuestions.js   # 🟢 Quick Rev: Kotler 4Ps/7Ps, STP, IMC, ASCI
         ├── paper1Questions.js           # Quant, Reasoning, English, Financial GA
-        └── cheatSheets.js               # Comprehensive 1-page visual revision notes
+        └── cheatSheets.js               # Comprehensive visual revision cheat sheets
 ```

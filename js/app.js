@@ -94,10 +94,16 @@ function getQuestionsForTopic(topic) {
       return window.managementQuestions || [];
     case 'finance':
       return window.financeQuestions || [];
+    case 'economics':
+      return window.economicsQuestions || [];
     case 'companies':
-      return window.companiesEconomicsQuestions || [];
+      return window.companiesActQuestions || window.companiesEconomicsQuestions || [];
+    case 'aiml':
+      return window.aiMlQuestions || [];
     case 'commerce':
       return window.commerceCostingQuestions || [];
+    case 'marketing':
+      return window.mediaMarketingQuestions || [];
     case 'paper1_quant':
       return (window.paper1Questions && window.paper1Questions.quant) || [];
     case 'paper1_reasoning':
@@ -124,15 +130,54 @@ function selectTopic(topic) {
 
   // Update topic titles
   const topicTitles = {
-    pension: { title: 'Pension Sector & PFRDA (High Priority)', desc: 'PFRDA Act 2013, NPS Tier 1 & 2, APY Rules, CRAs, PFMs' },
-    management: { title: 'Management & Leadership', desc: 'Motivation theories, Leadership styles, Communication, Fayol & Taylor' },
-    finance: { title: 'Finance & Financial System', desc: 'Money Market Instruments, Regulators (RBI, SEBI, IFSCA), Monetary Policy' },
-    companies: { title: 'Companies Act, Economics & Emerging Tech', desc: 'Company types, Board meetings, CSR Section 135, CPI/WPI, Account Aggregators' },
-    commerce: { title: 'Commerce, Accounting & Costing Essentials', desc: 'Golden Rules, Accounting Standards, Break-even analysis, P/V ratio formulas' },
-    paper1_quant: { title: 'Paper 1: Quantitative Aptitude (Speed Math)', desc: 'Number series, Percentages, Profit & Loss, Time & Work, Quadratic roots' },
-    paper1_reasoning: { title: 'Paper 1: Reasoning Ability (Logic & Puzzles)', desc: 'Syllogisms (Only a few), Inequalities, Directions, Blood Relations' },
-    paper1_english: { title: 'Paper 1: English Language (Grammar & Rules)', desc: 'Subject-Verb agreement, Conditionals, Prepositions, Error spotting' },
-    paper1_ga: { title: 'Paper 1: Financial & Pension General Awareness', desc: 'PFRDA leadership, current regulatory developments, Union Budget facts' }
+    pension: { 
+      title: 'Pension Sector & PFRDA Architecture (🔴 Highest Priority)', 
+      desc: 'PFRDA Act 2013, NPS Tier 1 & 2, APY Rules, CRAs, PFMs, UPS 2024, NPS Vatsalya' 
+    },
+    management: { 
+      title: 'Management & Leadership (🔴 High Priority)', 
+      desc: 'Motivation Theories (Maslow, Herzberg, McGregor, Vroom), Leadership Styles, Communication, Fayol & Taylor' 
+    },
+    finance: { 
+      title: 'Finance & Financial System (🔴 High Priority)', 
+      desc: 'Money Market Instruments (T-Bills, CP, CD), Capital Market, Regulators (RBI, SEBI, IFSCA), Monetary Policy' 
+    },
+    economics: { 
+      title: 'Economics, Union Budget & Survey (🟡 Medium-High Priority)', 
+      desc: 'Macroeconomics, CPI/WPI Inflation, Union Budget 2024-25, Deficits, Economic Survey 2024' 
+    },
+    companies: { 
+      title: 'Companies Act 2013 (🟡 Medium Priority)', 
+      desc: 'Company Types (OPC, Pvt, Public), Board Meetings, Director Limits, CSR Section 135, Share Capital' 
+    },
+    aiml: { 
+      title: 'AI / ML & FinTech (🟡 Medium Priority)', 
+      desc: 'Machine Learning Models, Neural Networks, Algo Trading, Robo-Advisory, SEBI Frameworks, IndiaAI Mission' 
+    },
+    commerce: { 
+      title: 'Commerce & Costing Essentials (🟠 Medium Priority)', 
+      desc: 'Golden Rules of Accounting, Trial Balance, Break-Even Analysis, P/V Ratio, Marginal Costing, Sunk Costs' 
+    },
+    marketing: { 
+      title: 'Media, Marketing & Communication (🟢 Quick Revision)', 
+      desc: 'Kotler’s 4Ps & 7Ps, STP Framework, Push vs Pull, Integrated Marketing Communication, Digital Metrics, ASCI' 
+    },
+    paper1_quant: { 
+      title: 'Paper 1: Quantitative Aptitude (Speed Math)', 
+      desc: 'Number series, Percentages, Profit & Loss, Time & Work, Quadratic roots' 
+    },
+    paper1_reasoning: { 
+      title: 'Paper 1: Reasoning Ability (Logic & Puzzles)', 
+      desc: 'Syllogisms (Only a few), Inequalities, Directions, Blood Relations' 
+    },
+    paper1_english: { 
+      title: 'Paper 1: English Language (Grammar & Rules)', 
+      desc: 'Subject-Verb agreement, Conditionals, Prepositions, Error spotting' 
+    },
+    paper1_ga: { 
+      title: 'Paper 1: Financial & Pension General Awareness', 
+      desc: 'PFRDA leadership, current regulatory developments, Union Budget facts' 
+    }
   };
 
   const info = topicTitles[topic] || topicTitles.pension;
@@ -283,31 +328,71 @@ function startCbtExam() {
     state.cbt.secondsLeft = 60 * 60; // 60 Minutes
     document.getElementById('cbt-paper-title').textContent = 'Paper 1: Aptitude & Awareness (100 Marks | 60 Mins)';
   } else if (state.cbt.mode === 'paper2') {
-    // 50 Questions from Paper 2 domains
+    // 50 Questions from Paper 2 domains, allocated according to priority
+    const pensionPool = window.pensionQuestions || [];
+    const mgmtPool = window.managementQuestions || [];
+    const finPool = window.financeQuestions || [];
+    const ecoPool = window.economicsQuestions || [];
+    const compPool = window.companiesActQuestions || window.companiesEconomicsQuestions || [];
+    const aimlPool = window.aiMlQuestions || [];
+    const commPool = window.commerceCostingQuestions || [];
+    const mktPool = window.mediaMarketingQuestions || [];
+
+    // Prioritized balanced sampling for Paper 2 (50 Qs):
+    // 🔴 Highest: 14 | 🔴 High: 8+8 | 🟡 Med-High: 6 | 🟡 Med: 4+4 | 🟠 Med: 4 | 🟢 Quick Rev: 2 = 50 Qs
     pool = [
-      ...window.pensionQuestions,
-      ...window.managementQuestions,
-      ...window.financeQuestions,
-      ...window.companiesEconomicsQuestions,
-      ...window.commerceCostingQuestions
+      ...pensionPool.slice(0, 14),
+      ...mgmtPool.slice(0, 8),
+      ...finPool.slice(0, 8),
+      ...ecoPool.slice(0, 6),
+      ...compPool.slice(0, 4),
+      ...aimlPool.slice(0, 4),
+      ...commPool.slice(0, 4),
+      ...mktPool.slice(0, 2)
     ];
-    pool = pool.slice(0, 50);
+
+    if (pool.length < 50) {
+      const allP2 = [
+        ...pensionPool, ...mgmtPool, ...finPool, ...ecoPool,
+        ...compPool, ...aimlPool, ...commPool, ...mktPool
+      ];
+      const usedIds = new Set(pool.map(q => q.id));
+      const remaining = allP2.filter(q => !usedIds.has(q.id));
+      pool = [...pool, ...remaining.slice(0, 50 - pool.length)];
+    }
+
     state.cbt.secondsLeft = 40 * 60; // 40 Minutes
     document.getElementById('cbt-paper-title').textContent = 'Paper 2: Professional Knowledge (50 Qs | 100 Marks | 40 Mins)';
   } else {
-    // Combined mock (Paper 1 + Paper 2)
-    pool = [
-      ...window.pensionQuestions,
-      ...window.managementQuestions,
-      ...window.financeQuestions,
-      ...window.companiesEconomicsQuestions,
-      ...window.commerceCostingQuestions,
-      ...(window.paper1Questions.quant || []),
-      ...(window.paper1Questions.reasoning || []),
-      ...(window.paper1Questions.english || []),
-      ...(window.paper1Questions.ga || [])
-    ];
-    pool = pool.slice(0, 75);
+    // Combined mock (Paper 1 + Paper 2 = 75 Qs)
+    const pensionPool = window.pensionQuestions || [];
+    const mgmtPool = window.managementQuestions || [];
+    const finPool = window.financeQuestions || [];
+    const ecoPool = window.economicsQuestions || [];
+    const compPool = window.companiesActQuestions || window.companiesEconomicsQuestions || [];
+    const aimlPool = window.aiMlQuestions || [];
+    const commPool = window.commerceCostingQuestions || [];
+    const mktPool = window.mediaMarketingQuestions || [];
+
+    const paper2Sample = [
+      ...pensionPool.slice(0, 10),
+      ...mgmtPool.slice(0, 6),
+      ...finPool.slice(0, 6),
+      ...ecoPool.slice(0, 5),
+      ...compPool.slice(0, 3),
+      ...aimlPool.slice(0, 4),
+      ...commPool.slice(0, 4),
+      ...mktPool.slice(0, 2)
+    ]; // 40 Qs
+
+    const paper1Sample = [
+      ...(window.paper1Questions.quant || []).slice(0, 9),
+      ...(window.paper1Questions.reasoning || []).slice(0, 9),
+      ...(window.paper1Questions.english || []).slice(0, 9),
+      ...(window.paper1Questions.ga || []).slice(0, 8)
+    ]; // 35 Qs
+
+    pool = [...paper2Sample, ...paper1Sample];
     state.cbt.secondsLeft = 100 * 60; // 100 mins
     document.getElementById('cbt-paper-title').textContent = 'Phase 1 Combined Mock Test (Paper 1 + Paper 2)';
   }

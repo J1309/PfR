@@ -799,35 +799,331 @@ const cheatSheets = {
   `,
 
   // =========================================================================
-  // 10. MACROECONOMICS & DEFICITS (PAPER 2)
+  // 10. ECONOMICS, UNION BUDGET & ECONOMIC SURVEY (PAPER 2)
   // =========================================================================
   economics: `
     <div class="cheat-flash-box">
       <div class="cheat-flash-header">
-        <span class="flash-title">⚡ 60-Second Macroeconomics Formulas</span>
+        <span class="flash-title">⚡ 60-Second Budget & Macroeconomics Flash Numbers</span>
       </div>
       <div class="flash-pills-row">
-        <span class="val-pill">RBI Inflation Anchor: CPI (4% ± 2%)</span>
-        <span class="val-pill purple">Fiscal Deficit = Total Net Borrowings</span>
-        <span class="val-pill amber">Primary Deficit = Fiscal Deficit - Interest</span>
-        <span class="val-pill cyan">Current Account: Goods, Services, Remittances</span>
-        <span class="val-pill">Capital Account: FDI, FPI, Foreign Loans</span>
+        <span class="val-pill">Budget Capex: ₹11,11,111 Cr (3.4% GDP)</span>
+        <span class="val-pill purple">Fiscal Deficit FY25: 4.9% of GDP</span>
+        <span class="val-pill amber">FY26 Target: Below 4.5%</span>
+        <span class="val-pill cyan">CPI Target: 4% (± 2% band)</span>
+        <span class="val-pill">Article 112: Annual Financial Statement</span>
+        <span class="val-pill purple">GDP Growth: 6.5%–7.0%</span>
+        <span class="val-pill amber">Repo Rate: 6.50%</span>
+        <span class="val-pill cyan">Angel Tax: Fully Abolished</span>
       </div>
     </div>
 
     <div class="cheat-card">
-      <h3>🌐 1. Inflation & Deficit Concepts</h3>
+      <h3>🏛️ 1. Union Budget 2024-25 Key Takeaways</h3>
+      <div class="cheat-table-container">
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Indicator / Initiative</th>
+              <th>Budget 2024-25 Specification</th>
+              <th>Exam Significance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Capital Expenditure (Capex)</strong></td>
+              <td><strong>₹11,11,111 Crore</strong> (3.4% of estimated GDP)</td>
+              <td>Continues multi-year infrastructure push to crowd-in private investment.</td>
+            </tr>
+            <tr>
+              <td><strong>Fiscal Deficit Target</strong></td>
+              <td><strong>4.9% of GDP</strong> for FY 2024-25 (FY24 was 5.6%)</td>
+              <td>Targeting sub-4.5% by FY 2025-26 under fiscal consolidation glide path.</td>
+            </tr>
+            <tr>
+              <td><strong>Total Receipts & Spending</strong></td>
+              <td>Total Receipts: <strong>₹32.07 Lakh Cr</strong> | Total Exp: <strong>₹48.21 Lakh Cr</strong></td>
+              <td>Net tax receipts estimated at ₹25.83 Lakh Crore.</td>
+            </tr>
+            <tr>
+              <td><strong>4 Core Pillars (G-Y-A-N)</strong></td>
+              <td><strong>Garib</strong> (Poor), <strong>Yuva</strong> (Youth), <strong>Annadata</strong> (Farmer), <strong>Nari</strong> (Women)</td>
+              <td>The official thematic focus guiding budgetary allocations.</td>
+            </tr>
+            <tr>
+              <td><strong>Angel Tax Abolition</strong></td>
+              <td>Section 56(2)(viib) abolished for all classes of investors</td>
+              <td>Major boost for startup funding ecosystem and angel investing in India.</td>
+            </tr>
+            <tr>
+              <td><strong>Custom Duty Rationalization</strong></td>
+              <td>Gold & Silver duty reduced to <strong>6%</strong>, Platinum to <strong>6.4%</strong></td>
+              <td>Aims to curb smuggling and boost domestic gems/jewellery manufacturing.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>🌐 2. Deficit Hierarchy & Formulas</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <h4>Fiscal Deficit</h4>
+          <p>• <strong>Formula:</strong> <code>Total Expenditure − (Revenue Receipts + Non-debt Capital Receipts)</code>.</p>
+          <p>• <strong>Meaning:</strong> Exactly equals the <strong>total net borrowings</strong> of the Government of India during the financial year.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>Primary Deficit</h4>
+          <p>• <strong>Formula:</strong> <code>Fiscal Deficit − Interest Payments</code>.</p>
+          <p>• <strong>Meaning:</strong> Measures government borrowing requirements strictly for current operations, ignoring legacy debt interest.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>Revenue Deficit</h4>
+          <p>• <strong>Formula:</strong> <code>Revenue Expenditure − Revenue Receipts</code>.</p>
+          <p>• <strong>Meaning:</strong> Indicates that current day-to-day administrative expenses exceed current recurring tax & non-tax revenues.</p>
+        </div>
+      </div>
+
+      <div class="trap-box">
+        ⚠️ <strong>Classic IBPS Trap:</strong> Examiners often write: <em>"Fiscal Deficit = Total Expenditure − Total Receipts."</em> This is FALSE! (Total Receipts includes borrowings, which would make the deficit 0). The correct formulation is Total Receipts <strong>excluding borrowings</strong>!
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>📈 3. Inflation & Economic Survey Indicators</h3>
       <div class="diff-grid">
         <div class="diff-col highlight-a">
           <h4>CPI vs. WPI Inflation</h4>
-          <p>• <strong>CPI (Consumer Price Index):</strong> Retail inflation, includes goods AND services. Official RBI anchor with <strong>4% target (2% to 6% band)</strong>.</p>
-          <p>• <strong>WPI (Wholesale Price Index):</strong> Wholesale level, <strong>does NOT include services</strong>. Published by DPIIT.</p>
+          <p>• <strong>CPI (Retail):</strong> Includes goods & services. Official RBI policy anchor with <strong>4% target (2% to 6% band)</strong>. Base Year: <strong>2012</strong>. Published by NSO (MoSPI).</p>
+          <p>• <strong>WPI (Wholesale):</strong> Measures wholesale price changes. <strong>Excludes services</strong> entirely. Base Year: <strong>2011-12</strong>. Published by Office of Economic Adviser (DPIIT).</p>
         </div>
         <div class="diff-col highlight-b">
-          <h4>Budget Deficits Hierarchy</h4>
-          <p>• <strong>Fiscal Deficit:</strong> Total Expenditure − (Total Receipts excluding borrowings). <em>Directly equals the total borrowing of the government!</em></p>
-          <p>• <strong>Primary Deficit:</strong> <code>Fiscal Deficit − Interest Payments</code>.</p>
+          <h4>Economic Survey 2023-24 Highlights</h4>
+          <p>• <strong>Chief Economic Adviser:</strong> Dr. V. Anantha Nageswaran.</p>
+          <p>• <strong>Projected Real GDP Growth:</strong> <strong>6.5% to 7.0%</strong> for FY25.</p>
+          <p>• <strong>Twin Balance Sheet Advantage:</strong> Clean banking balance sheets (Gross NPAs at multi-year lows &lt;3%) + deleveraged corporate sector.</p>
         </div>
+      </div>
+    </div>
+  `,
+
+  // =========================================================================
+  // 11. ARTIFICIAL INTELLIGENCE, MACHINE LEARNING & FINTECH (PAPER 2)
+  // =========================================================================
+  aiml: `
+    <div class="cheat-flash-box">
+      <div class="cheat-flash-header">
+        <span class="flash-title">⚡ 60-Second AI, ML & FinTech Flash Roster</span>
+      </div>
+      <div class="flash-pills-row">
+        <span class="val-pill">Supervised: Labeled Data</span>
+        <span class="val-pill purple">Unsupervised: Unlabeled / Clusters</span>
+        <span class="val-pill amber">RL: Reward & Penalty Agent</span>
+        <span class="val-pill cyan">Overfitting: Low Bias, High Variance</span>
+        <span class="val-pill">Underfitting: High Bias, Low Variance</span>
+        <span class="val-pill purple">IndiaAI Outlay: ₹10,372 Cr (10k+ GPUs)</span>
+        <span class="val-pill amber">Transformer: Self-Attention</span>
+        <span class="val-pill cyan">XAI: SHAP & LIME</span>
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>🤖 1. The 3 Pillars of Machine Learning</h3>
+      <div class="cheat-table-container">
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Learning Paradigm</th>
+              <th>Input Data Type</th>
+              <th>Core Algorithms</th>
+              <th>Financial / FinTech Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Supervised Learning</strong></td>
+              <td><strong>Labeled Data</strong> (Inputs mapped to known outputs: X → Y)</td>
+              <td>Linear/Logistic Regression, Decision Trees, Random Forest, SVM, XGBoost</td>
+              <td><strong>Credit Scoring:</strong> Predicting default probability (0 or 1). Loan approval underwriting, stock price regression.</td>
+            </tr>
+            <tr>
+              <td><strong>Unsupervised Learning</strong></td>
+              <td><strong>Unlabeled Data</strong> (Finds hidden patterns & groupings: X only)</td>
+              <td>K-Means Clustering, Hierarchical Clustering, PCA (Dimensionality Reduction)</td>
+              <td><strong>Fraud Detection & Segmentation:</strong> Spotting anomalous transaction behavior; customer wealth tier clustering.</td>
+            </tr>
+            <tr>
+              <td><strong>Reinforcement Learning (RL)</strong></td>
+              <td><strong>Trial-and-error</strong> in dynamic environment via rewards/penalties</td>
+              <td>Q-Learning, Policy Gradients, Deep Q-Networks (DQN)</td>
+              <td><strong>Algorithmic Market Making:</strong> Dynamic portfolio rebalancing and high-frequency execution strategies.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mnemonic-box">
+        💡 <strong>Remember:</strong> Supervised has a <strong>Teacher</strong> (Labels). Unsupervised is <strong>Self-Discovery</strong> (Clusters). Reinforcement is a <strong>Game</strong> (Rewards).
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>📈 2. Algorithmic Trading & FinTech Architecture</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <h4>Algorithmic Trading Strategies</h4>
+          <p>• <strong>VWAP (Volume-Weighted Average Price):</strong> Breaks large institutional orders into slices matching historical volume curve to minimize price impact.</p>
+          <p>• <strong>TWAP (Time-Weighted Average Price):</strong> Divides order into equal portions executed at uniform time intervals.</p>
+          <p>• <strong>Statistical Arbitrage:</strong> Exploits temporary pricing discrepancies across correlated asset pairs.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>Infrastructure & Latency</h4>
+          <p>• <strong>Colocation:</strong> Placing broker/trader servers in the exchange's data center (NSE/BSE) to achieve sub-millisecond execution speeds.</p>
+          <p>• <strong>Direct Market Access (DMA):</strong> Institutional clients routing orders directly to exchange without manual broker intervention.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>Robo-Advisory & Underwriting</h4>
+          <p>• <strong>Robo-Advisors:</strong> Automated asset management using Harry Markowitz's <em>Modern Portfolio Theory</em> (mean-variance optimization).</p>
+          <p>• <strong>Alternative Data:</strong> Using utility bills, GST returns, and UPI velocity for credit underwriting of new-to-credit (NTC) borrowers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>🛡️ 3. Model Performance, Explainability & SEBI Guidelines</h3>
+      <div class="diff-grid">
+        <div class="diff-col highlight-a">
+          <h4>Bias-Variance Tradeoff</h4>
+          <p>• <strong>Overfitting (High Variance):</strong> Model memorizes training noise and fails on unseen test data. <em>Fix: Regularization (L1/L2), Dropout, Pruning, more data.</em></p>
+          <p>• <strong>Underfitting (High Bias):</strong> Model is too simple to capture patterns (e.g. fitting linear line to non-linear data). <em>Fix: More complex model, feature engineering.</em></p>
+        </div>
+        <div class="diff-col highlight-b">
+          <h4>Explainable AI (XAI) & Regulatory Guardrails</h4>
+          <p>• <strong>XAI (SHAP & LIME):</strong> Explaining "black box" decisions. Mandatory in credit lending to prove decisions are free from racial, gender, or demographic bias.</p>
+          <p>• <strong>SEBI Circular on AI/ML:</strong> All registered market entities must report AI/ML usage semi-annually, maintain immutable audit logs, and retain human kill-switches.</p>
+        </div>
+      </div>
+
+      <div class="trap-box">
+        ⚠️ <strong>Classic IBPS Trap:</strong> In fraud detection, which metric matters more: Precision or Recall? <strong>Recall!</strong> Failing to detect an actual fraud (False Negative) costs millions, whereas a false alarm (False Positive) just requires an OTP check!
+      </div>
+    </div>
+  `,
+
+  // =========================================================================
+  // 12. MEDIA, MARKETING & COMMUNICATION (PAPER 2)
+  // =========================================================================
+  marketing: `
+    <div class="cheat-flash-box">
+      <div class="cheat-flash-header">
+        <span class="flash-title">⚡ 60-Second Marketing & Communication Flash Concepts</span>
+      </div>
+      <div class="flash-pills-row">
+        <span class="val-pill">4Ps: Product, Price, Place, Promotion</span>
+        <span class="val-pill purple">Services 7Ps: + People, Process, Phys Evidence</span>
+        <span class="val-pill amber">STP: Segmentation → Targeting → Positioning</span>
+        <span class="val-pill cyan">AIDA: Attention → Interest → Desire → Action</span>
+        <span class="val-pill">Push = Trade Margins | Pull = Consumer Ads</span>
+        <span class="val-pill purple">Target LTV: > 3x CAC</span>
+        <span class="val-pill amber">ASCI: Self-Regulatory Ad Watchdog</span>
+        <span class="val-pill cyan">IMC: Unified Consistent Messaging</span>
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>📢 1. The Marketing Mix: 4Ps & 7Ps</h3>
+      <div class="cheat-table-container">
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>P Element</th>
+              <th>Formulated By</th>
+              <th>Key Decision Dimensions</th>
+              <th>Exam Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Product</strong></td>
+              <td>E. Jerome McCarthy (Kotler popularized)</td>
+              <td>Design, quality, branding, packaging, product life cycle (PLC)</td>
+              <td>NPS or APY as financial products with distinct features and lock-in rules.</td>
+            </tr>
+            <tr>
+              <td><strong>Price</strong></td>
+              <td>4Ps Foundation</td>
+              <td>Cost-plus, Value-based, Skimming (high start), Penetration (low entry)</td>
+              <td>PFRDA capping PFM investment management fee at 0.09% (low penetration fee).</td>
+            </tr>
+            <tr>
+              <td><strong>Place</strong></td>
+              <td>4Ps Foundation</td>
+              <td>Distribution channels, intermediaries, POP-SPs, online portal (eNPS)</td>
+              <td>Points of Presence (POPs) acting as distribution channels for NPS.</td>
+            </tr>
+            <tr>
+              <td><strong>Promotion</strong></td>
+              <td>4Ps Foundation</td>
+              <td>Advertising, Public Relations, Sales Promotion, Direct Marketing</td>
+              <td>PFRDA investor awareness campaigns (National Pension System awareness month).</td>
+            </tr>
+            <tr>
+              <td><strong>People, Process, Physical Evidence</strong></td>
+              <td>Booms & Bitner (1981) — <strong>Extended 3Ps for Services</strong></td>
+              <td>Customer-facing staff (People); workflow delivery (Process); trust environment & branches (Physical Evidence)</td>
+              <td>Financial services are intangible; subscribers rely on CRA portals and physical branches for tangible trust cues.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>🎯 2. Strategic Marketing Frameworks (STP & Push/Pull)</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <h4>STP Framework</h4>
+          <p>• <strong>Segmentation:</strong> Dividing market into distinct subsets (Demographic: age/income, Geographic, Psychographic: risk tolerance, Behavioral).</p>
+          <p>• <strong>Targeting:</strong> Selecting which segment(s) to serve (e.g. APY targets unorganized workers; NPS All-Citizen targets salaried professionals).</p>
+          <p>• <strong>Positioning:</strong> Designing product image to occupy a distinct mental space (e.g. NPS positioned as <em>"Lowest Cost Pension in the World"</em>).</p>
+        </div>
+        <div class="cheat-item">
+          <h4>Push vs. Pull Strategy</h4>
+          <p>• <strong>Push Strategy:</strong> Directs promotional effort at channel intermediaries (distributors, banks, POPs) through commissions and trade margins to "push" product.</p>
+          <p>• <strong>Pull Strategy:</strong> Directs promotional effort at end consumers through brand advertising, PR, and digital campaigns so consumers actively demand ("pull") it.</p>
+        </div>
+        <div class="cheat-item">
+          <h4>Integrated Marketing Communication (IMC)</h4>
+          <p>• Coordinating all brand communication channels (PR, TV, social media, print, direct mail) so they convey <strong>one seamless, consistent message</strong> across touchpoints.</p>
+        </div>
+      </div>
+
+      <div class="mnemonic-box">
+        💡 <strong>The AIDA Funnel:</strong> Awareness / Attention → Interest → Desire → Action. Guides lead nurturing from cold prospect to registered subscriber.
+      </div>
+    </div>
+
+    <div class="cheat-card">
+      <h3>💻 3. Digital Marketing Metrics & Advertising Ethics</h3>
+      <div class="diff-grid">
+        <div class="diff-col highlight-a">
+          <h4>Digital Performance Metrics</h4>
+          <p>• <strong>CAC (Customer Acquisition Cost):</strong> <code>Total Sales & Marketing Spend ÷ Total New Customers Acquired</code>.</p>
+          <p>• <strong>LTV (Customer Lifetime Value):</strong> Net profit attributed to entire relationship. <strong>Healthy SaaS/FinTech rule: LTV ≥ 3 × CAC</strong>.</p>
+          <p>• <strong>CTR (Click-Through Rate):</strong> <code>(Total Clicks ÷ Total Impressions) × 100</code>.</p>
+          <p>• <strong>ROAS (Return on Ad Spend):</strong> <code>Revenue from ads ÷ Advertising Cost</code>.</p>
+        </div>
+        <div class="diff-col highlight-b">
+          <h4>Regulatory & Ethical Standards</h4>
+          <p>• <strong>ASCI (Advertising Standards Council of India):</strong> Voluntary self-regulatory body establishing truth in advertising and protecting consumer trust.</p>
+          <p>• <strong>Greenwashing:</strong> Making deceptive or unsubstantiated claims that a company's products/funds are environmentally friendly or ESG-compliant.</p>
+          <p>• <strong>Surrogate Advertising:</strong> Promoting banned goods (liquor, tobacco) through brand extensions (club soda, music CDs).</p>
+        </div>
+      </div>
+
+      <div class="trap-box">
+        ⚠️ <strong>Classic IBPS Trap:</strong> Examiners will ask whether ASCI is a statutory body under an Act of Parliament. <strong>No! ASCI is a voluntary, non-statutory self-regulatory body</strong>, unlike SEBI, RBI, or CCI which are statutory regulators.
       </div>
     </div>
   `

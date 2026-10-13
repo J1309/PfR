@@ -71,44 +71,104 @@
           <aside class="drill-sidebar">
             <div class="sidebar-header">
               <h3>Syllabus Modules</h3>
-              <span class="badge-total" id="drill-total-badge">180+ Qs</span>
+              <span class="badge-total" id="drill-total-badge">270+ Qs</span>
             </div>
 
             <div class="module-group">
               <div class="group-title">PAPER 2: PROFESSIONAL KNOWLEDGE (100 Marks)</div>
+              <!-- 🔴 HIGHEST PRIORITY -->
               <button class="topic-btn active" data-topic="pension" onclick="selectTopic('pension')">
                 <span class="topic-icon">🏛️</span>
                 <div class="topic-info">
-                  <span class="topic-name">Pension & PFRDA (Top Priority)</span>
-                  <span class="topic-stats" id="stats-pension">35 Questions</span>
+                  <div class="topic-top-row">
+                    <span class="topic-name">Pension & PFRDA Architecture</span>
+                    <span class="priority-tag highest">🔴 Highest</span>
+                  </div>
+                  <span class="topic-stats" id="stats-pension">35 Qs • PFRDA Act, NPS, APY, UPS, Vatsalya</span>
                 </div>
               </button>
+
+              <!-- 🔴 HIGH PRIORITY -->
               <button class="topic-btn" data-topic="management" onclick="selectTopic('management')">
                 <span class="topic-icon">👥</span>
                 <div class="topic-info">
-                  <span class="topic-name">Management & Leadership</span>
-                  <span class="topic-stats" id="stats-management">30 Questions</span>
+                  <div class="topic-top-row">
+                    <span class="topic-name">Management & Leadership</span>
+                    <span class="priority-tag high">🔴 High</span>
+                  </div>
+                  <span class="topic-stats" id="stats-management">30 Qs • Thinkers, Theories & Principles</span>
                 </div>
               </button>
+
+              <!-- 🔴 HIGH PRIORITY -->
               <button class="topic-btn" data-topic="finance" onclick="selectTopic('finance')">
                 <span class="topic-icon">📈</span>
                 <div class="topic-info">
-                  <span class="topic-name">Finance & Financial System</span>
-                  <span class="topic-stats" id="stats-finance">30 Questions</span>
+                  <div class="topic-top-row">
+                    <span class="topic-name">Finance & Financial System</span>
+                    <span class="priority-tag high">🔴 High</span>
+                  </div>
+                  <span class="topic-stats" id="stats-finance">30 Qs • Money & Capital Markets, Regulators</span>
                 </div>
               </button>
+
+              <!-- 🟡 MEDIUM-HIGH PRIORITY -->
+              <button class="topic-btn" data-topic="economics" onclick="selectTopic('economics')">
+                <span class="topic-icon">🌐</span>
+                <div class="topic-info">
+                  <div class="topic-top-row">
+                    <span class="topic-name">Economics, Budget & Survey</span>
+                    <span class="priority-tag med-high">🟡 Med-High</span>
+                  </div>
+                  <span class="topic-stats" id="stats-economics">15 Qs • Macro, Union Budget '24, Deficits</span>
+                </div>
+              </button>
+
+              <!-- 🟡 MEDIUM PRIORITY -->
               <button class="topic-btn" data-topic="companies" onclick="selectTopic('companies')">
                 <span class="topic-icon">📜</span>
                 <div class="topic-info">
-                  <span class="topic-name">Companies Act & Economics</span>
-                  <span class="topic-stats" id="stats-companies">25 Questions</span>
+                  <div class="topic-top-row">
+                    <span class="topic-name">Companies Act 2013</span>
+                    <span class="priority-tag medium">🟡 Medium</span>
+                  </div>
+                  <span class="topic-stats" id="stats-companies">10 Qs • Directors, CSR, Board Meetings</span>
                 </div>
               </button>
+
+              <!-- 🟡 MEDIUM PRIORITY -->
+              <button class="topic-btn" data-topic="aiml" onclick="selectTopic('aiml')">
+                <span class="topic-icon">🤖</span>
+                <div class="topic-info">
+                  <div class="topic-top-row">
+                    <span class="topic-name">AI / ML & FinTech</span>
+                    <span class="priority-tag medium">🟡 Medium</span>
+                  </div>
+                  <span class="topic-stats" id="stats-aiml">12 Qs • ML Types, Algo Trading, IndiaAI</span>
+                </div>
+              </button>
+
+              <!-- 🟠 MEDIUM PRIORITY -->
               <button class="topic-btn" data-topic="commerce" onclick="selectTopic('commerce')">
                 <span class="topic-icon">📊</span>
                 <div class="topic-info">
-                  <span class="topic-name">Commerce & Costing Essentials</span>
-                  <span class="topic-stats" id="stats-commerce">25 Questions</span>
+                  <div class="topic-top-row">
+                    <span class="topic-name">Commerce & Costing</span>
+                    <span class="priority-tag medium" style="background: rgba(249, 115, 22, 0.15); color: #fb923c; border-color: rgba(249, 115, 22, 0.3);">🟠 Medium</span>
+                  </div>
+                  <span class="topic-stats" id="stats-commerce">25 Qs • Golden Rules, BEP, P/V Ratio</span>
+                </div>
+              </button>
+
+              <!-- 🟢 QUICK REVISION -->
+              <button class="topic-btn" data-topic="marketing" onclick="selectTopic('marketing')">
+                <span class="topic-icon">📢</span>
+                <div class="topic-info">
+                  <div class="topic-top-row">
+                    <span class="topic-name">Media, Marketing & Comm</span>
+                    <span class="priority-tag quick-rev">🟢 Quick Rev</span>
+                  </div>
+                  <span class="topic-stats" id="stats-marketing">10 Qs • 4Ps, IMC, Brand Equity, Digital</span>
                 </div>
               </button>
             </div>
@@ -147,7 +207,7 @@
 
             <div class="sidebar-card">
               <h4>🎯 Triage Rule of Thumb</h4>
-              <p>For an MCA graduate, clearing Paper 2 requires getting <strong>18–22 marks</strong>. Focus heavily on <strong>Pension, Management, & Financial Markets</strong> to safely cross it!</p>
+              <p>For an MCA graduate, clearing Paper 2 requires getting <strong>18–22 marks</strong>. Prioritize <strong>🔴 Pension, Management, & Finance</strong> first, followed by <strong>🟡 Economics, Companies Act & AI/ML</strong>!</p>
             </div>
           </aside>
 
@@ -356,15 +416,17 @@
 
           <div class="cheat-tabs">
             <button class="cheat-tab active" onclick="showCheatSheet('pension')">🏛️ Pension & PFRDA</button>
-            <button class="cheat-tab" onclick="showCheatSheet('management')">👥 Management Thinkers</button>
+            <button class="cheat-tab" onclick="showCheatSheet('management')">👥 Management</button>
             <button class="cheat-tab" onclick="showCheatSheet('finance')">📈 Financial Markets</button>
+            <button class="cheat-tab" onclick="showCheatSheet('economics')">🌐 Economics & Budget</button>
+            <button class="cheat-tab" onclick="showCheatSheet('companies')">📜 Companies Act</button>
+            <button class="cheat-tab" onclick="showCheatSheet('aiml')">🤖 AI / ML & FinTech</button>
+            <button class="cheat-tab" onclick="showCheatSheet('commerce')">📊 Commerce & Costing</button>
+            <button class="cheat-tab" onclick="showCheatSheet('marketing')">📢 Media & Marketing</button>
             <button class="cheat-tab" onclick="showCheatSheet('quant')">🔢 Quant Shortcuts</button>
             <button class="cheat-tab" onclick="showCheatSheet('reasoning')">🧠 Reasoning Tricks</button>
             <button class="cheat-tab" onclick="showCheatSheet('english')">✍️ 10 Grammar Rules</button>
             <button class="cheat-tab" onclick="showCheatSheet('ga')">📰 Financial GA</button>
-            <button class="cheat-tab" onclick="showCheatSheet('companies')">📜 Companies Act</button>
-            <button class="cheat-tab" onclick="showCheatSheet('commerce')">📊 Commerce & Costing</button>
-            <button class="cheat-tab" onclick="showCheatSheet('economics')">🌐 Macroeconomics</button>
           </div>
 
           <div class="cheat-body" id="cheatsheet-content">
@@ -556,8 +618,11 @@
   <script src="js/data/pensionQuestions.js"></script>
   <script src="js/data/managementQuestions.js"></script>
   <script src="js/data/financeQuestions.js"></script>
+  <script src="js/data/economicsQuestions.js"></script>
   <script src="js/data/companiesEconomicsQuestions.js"></script>
+  <script src="js/data/aiMlQuestions.js"></script>
   <script src="js/data/commerceCostingQuestions.js"></script>
+  <script src="js/data/mediaMarketingQuestions.js"></script>
   <script src="js/data/paper1Questions.js"></script>
   <script src="js/data/cheatSheets.js"></script>
   <script src="js/app.js"></script>
