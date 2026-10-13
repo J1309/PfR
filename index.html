@@ -76,133 +76,149 @@
 
             <div class="module-group">
               <div class="group-title">PAPER 2: PROFESSIONAL KNOWLEDGE (100 Marks)</div>
-              <!-- 🔴 HIGHEST PRIORITY -->
-              <button class="topic-btn active" data-topic="pension" onclick="selectTopic('pension')">
-                <span class="topic-icon">🏛️</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Pension & PFRDA Architecture</span>
-                    <span class="priority-tag highest">🔴 Highest</span>
+              <div class="topic-chips-scroll">
+                <!-- 🔴 HIGHEST PRIORITY -->
+                <button class="topic-btn active" data-topic="pension" onclick="selectTopic('pension')">
+                  <span class="topic-icon">🏛️</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Pension & PFRDA</span>
+                      <span class="priority-tag highest">🔴 Highest</span>
+                    </div>
+                    <span class="topic-stats" id="stats-pension">35 Qs • PFRDA Act, NPS, APY, UPS, Vatsalya</span>
                   </div>
-                  <span class="topic-stats" id="stats-pension">35 Qs • PFRDA Act, NPS, APY, UPS, Vatsalya</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🔴 HIGH PRIORITY -->
-              <button class="topic-btn" data-topic="management" onclick="selectTopic('management')">
-                <span class="topic-icon">👥</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Management & Leadership</span>
-                    <span class="priority-tag high">🔴 High</span>
+                <!-- 🔴 HIGH PRIORITY -->
+                <button class="topic-btn" data-topic="management" onclick="selectTopic('management')">
+                  <span class="topic-icon">👥</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Management & Leadership</span>
+                      <span class="priority-tag high">🔴 High</span>
+                    </div>
+                    <span class="topic-stats" id="stats-management">30 Qs • Thinkers, Theories & Principles</span>
                   </div>
-                  <span class="topic-stats" id="stats-management">30 Qs • Thinkers, Theories & Principles</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🔴 HIGH PRIORITY -->
-              <button class="topic-btn" data-topic="finance" onclick="selectTopic('finance')">
-                <span class="topic-icon">📈</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Finance & Financial System</span>
-                    <span class="priority-tag high">🔴 High</span>
+                <!-- 🔴 HIGH PRIORITY -->
+                <button class="topic-btn" data-topic="finance" onclick="selectTopic('finance')">
+                  <span class="topic-icon">📈</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Finance & Markets</span>
+                      <span class="priority-tag high">🔴 High</span>
+                    </div>
+                    <span class="topic-stats" id="stats-finance">30 Qs • Money & Capital Markets, Regulators</span>
                   </div>
-                  <span class="topic-stats" id="stats-finance">30 Qs • Money & Capital Markets, Regulators</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🟡 MEDIUM-HIGH PRIORITY -->
-              <button class="topic-btn" data-topic="economics" onclick="selectTopic('economics')">
-                <span class="topic-icon">🌐</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Economics, Budget & Survey</span>
-                    <span class="priority-tag med-high">🟡 Med-High</span>
+                <!-- 🟡 MEDIUM-HIGH PRIORITY -->
+                <button class="topic-btn" data-topic="economics" onclick="selectTopic('economics')">
+                  <span class="topic-icon">🌐</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Economics & Budget</span>
+                      <span class="priority-tag med-high">🟡 Med-High</span>
+                    </div>
+                    <span class="topic-stats" id="stats-economics">15 Qs • Macro, Union Budget '24, Deficits</span>
                   </div>
-                  <span class="topic-stats" id="stats-economics">15 Qs • Macro, Union Budget '24, Deficits</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🟡 MEDIUM PRIORITY -->
-              <button class="topic-btn" data-topic="companies" onclick="selectTopic('companies')">
-                <span class="topic-icon">📜</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Companies Act 2013</span>
-                    <span class="priority-tag medium">🟡 Medium</span>
+                <!-- 🟡 MEDIUM PRIORITY -->
+                <button class="topic-btn" data-topic="companies" onclick="selectTopic('companies')">
+                  <span class="topic-icon">📜</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Companies Act 2013</span>
+                      <span class="priority-tag medium">🟡 Medium</span>
+                    </div>
+                    <span class="topic-stats" id="stats-companies">10 Qs • Directors, CSR, Board Meetings</span>
                   </div>
-                  <span class="topic-stats" id="stats-companies">10 Qs • Directors, CSR, Board Meetings</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🟡 MEDIUM PRIORITY -->
-              <button class="topic-btn" data-topic="aiml" onclick="selectTopic('aiml')">
-                <span class="topic-icon">🤖</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">AI / ML & FinTech</span>
-                    <span class="priority-tag medium">🟡 Medium</span>
+                <!-- 🟡 MEDIUM PRIORITY -->
+                <button class="topic-btn" data-topic="aiml" onclick="selectTopic('aiml')">
+                  <span class="topic-icon">🤖</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">AI / ML & FinTech</span>
+                      <span class="priority-tag medium">🟡 Medium</span>
+                    </div>
+                    <span class="topic-stats" id="stats-aiml">12 Qs • ML Types, Algo Trading, IndiaAI</span>
                   </div>
-                  <span class="topic-stats" id="stats-aiml">12 Qs • ML Types, Algo Trading, IndiaAI</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🟠 MEDIUM PRIORITY -->
-              <button class="topic-btn" data-topic="commerce" onclick="selectTopic('commerce')">
-                <span class="topic-icon">📊</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Commerce & Costing</span>
-                    <span class="priority-tag medium" style="background: rgba(249, 115, 22, 0.15); color: #fb923c; border-color: rgba(249, 115, 22, 0.3);">🟠 Medium</span>
+                <!-- 🟠 MEDIUM PRIORITY -->
+                <button class="topic-btn" data-topic="commerce" onclick="selectTopic('commerce')">
+                  <span class="topic-icon">📊</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Commerce & Costing</span>
+                      <span class="priority-tag medium" style="background: rgba(249, 115, 22, 0.15); color: #fb923c; border-color: rgba(249, 115, 22, 0.3);">🟠 Medium</span>
+                    </div>
+                    <span class="topic-stats" id="stats-commerce">25 Qs • Golden Rules, BEP, P/V Ratio</span>
                   </div>
-                  <span class="topic-stats" id="stats-commerce">25 Qs • Golden Rules, BEP, P/V Ratio</span>
-                </div>
-              </button>
+                </button>
 
-              <!-- 🟢 QUICK REVISION -->
-              <button class="topic-btn" data-topic="marketing" onclick="selectTopic('marketing')">
-                <span class="topic-icon">📢</span>
-                <div class="topic-info">
-                  <div class="topic-top-row">
-                    <span class="topic-name">Media, Marketing & Comm</span>
-                    <span class="priority-tag quick-rev">🟢 Quick Rev</span>
+                <!-- 🟢 QUICK REVISION -->
+                <button class="topic-btn" data-topic="marketing" onclick="selectTopic('marketing')">
+                  <span class="topic-icon">📢</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Media & Marketing</span>
+                      <span class="priority-tag quick-rev">🟢 Quick Rev</span>
+                    </div>
+                    <span class="topic-stats" id="stats-marketing">10 Qs • 4Ps, IMC, Brand Equity, Digital</span>
                   </div>
-                  <span class="topic-stats" id="stats-marketing">10 Qs • 4Ps, IMC, Brand Equity, Digital</span>
-                </div>
-              </button>
+                </button>
+              </div>
             </div>
 
             <div class="module-group">
               <div class="group-title">PAPER 1: APTITUDE & AWARENESS (100 Marks | 60 Mins)</div>
-              <button class="topic-btn" data-topic="paper1_quant" onclick="selectTopic('paper1_quant')">
-                <span class="topic-icon">🔢</span>
-                <div class="topic-info">
-                  <span class="topic-name">Quantitative Aptitude (Speed Math)</span>
-                  <span class="topic-stats" id="stats-paper1_quant">Series, %, Profit/Loss, Time-Work</span>
-                </div>
-              </button>
-              <button class="topic-btn" data-topic="paper1_reasoning" onclick="selectTopic('paper1_reasoning')">
-                <span class="topic-icon">🧠</span>
-                <div class="topic-info">
-                  <span class="topic-name">Reasoning Ability (Puzzles & Logic)</span>
-                  <span class="topic-stats" id="stats-paper1_reasoning">Syllogisms, Inequalities, Directions</span>
-                </div>
-              </button>
-              <button class="topic-btn" data-topic="paper1_english" onclick="selectTopic('paper1_english')">
-                <span class="topic-icon">📚</span>
-                <div class="topic-info">
-                  <span class="topic-name">English Language (Grammar & Vocab)</span>
-                  <span class="topic-stats" id="stats-paper1_english">Error Spotting, Prepositions, Rules</span>
-                </div>
-              </button>
-              <button class="topic-btn" data-topic="paper1_ga" onclick="selectTopic('paper1_ga')">
-                <span class="topic-icon">📰</span>
-                <div class="topic-info">
-                  <span class="topic-name">Financial & Pension GA</span>
-                  <span class="topic-stats" id="stats-paper1_ga">Budget, Regulators, Social Schemes</span>
-                </div>
-              </button>
+              <div class="topic-chips-scroll">
+                <button class="topic-btn" data-topic="paper1_quant" onclick="selectTopic('paper1_quant')">
+                  <span class="topic-icon">🔢</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Quant Aptitude</span>
+                      <span class="priority-tag high">Paper 1</span>
+                    </div>
+                    <span class="topic-stats" id="stats-paper1_quant">Series, %, Profit/Loss, Time-Work</span>
+                  </div>
+                </button>
+                <button class="topic-btn" data-topic="paper1_reasoning" onclick="selectTopic('paper1_reasoning')">
+                  <span class="topic-icon">🧠</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Reasoning Ability</span>
+                      <span class="priority-tag high">Paper 1</span>
+                    </div>
+                    <span class="topic-stats" id="stats-paper1_reasoning">Syllogisms, Inequalities, Directions</span>
+                  </div>
+                </button>
+                <button class="topic-btn" data-topic="paper1_english" onclick="selectTopic('paper1_english')">
+                  <span class="topic-icon">📚</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">English Language</span>
+                      <span class="priority-tag med-high">Paper 1</span>
+                    </div>
+                    <span class="topic-stats" id="stats-paper1_english">Error Spotting, Prepositions, Rules</span>
+                  </div>
+                </button>
+                <button class="topic-btn" data-topic="paper1_ga" onclick="selectTopic('paper1_ga')">
+                  <span class="topic-icon">📰</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Financial GA</span>
+                      <span class="priority-tag highest">Paper 1</span>
+                    </div>
+                    <span class="topic-stats" id="stats-paper1_ga">Budget, Regulators, Social Schemes</span>
+                  </div>
+                </button>
+              </div>
             </div>
 
             <div class="sidebar-card">
@@ -378,6 +394,7 @@
 
             <!-- IBPS Palette & Legend -->
             <div class="ibps-palette-pane">
+              <button class="btn-palette-back-mobile" onclick="scrollBackToQuestionMobile()">↑ Back to Question</button>
               <div class="palette-legend">
                 <div class="legend-item"><span class="legend-badge answered">0</span> Answered</div>
                 <div class="legend-item"><span class="legend-badge not-answered">0</span> Not Answered</div>

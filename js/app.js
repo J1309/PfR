@@ -46,6 +46,8 @@ function switchView(viewName) {
   if (activePanel) activePanel.classList.add('active');
   if (activeNav) activeNav.classList.add('active');
 
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
   if (viewName === 'bookmarks') {
     renderBookmarks();
   }
@@ -184,6 +186,14 @@ function selectTopic(topic) {
   document.getElementById('current-topic-title').textContent = info.title;
   document.getElementById('current-topic-desc').textContent = info.desc;
 
+  // Center selected topic chip horizontally on mobile
+  if (window.innerWidth <= 900) {
+    const activeBtn = document.querySelector(`.topic-btn[data-topic="${topic}"]`);
+    if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
+      activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+
   renderCurrentDrillQuestion();
 }
 
@@ -267,6 +277,16 @@ function handleDrillAnswer(selectedIdx) {
   const q = state.drill.questions[state.drill.currentIndex];
   state.drill.userAnswers[q.id] = selectedIdx;
   renderCurrentDrillQuestion();
+
+  // On mobile or small viewports, smoothly reveal explanation
+  if (window.innerWidth <= 900) {
+    const expBox = document.getElementById('drill-explanation-box');
+    if (expBox && !expBox.classList.contains('hidden')) {
+      setTimeout(() => {
+        expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 60);
+    }
+  }
 }
 
 function navigateDrill(delta) {
@@ -274,6 +294,13 @@ function navigateDrill(delta) {
   if (newIdx >= 0 && newIdx < state.drill.questions.length) {
     state.drill.currentIndex = newIdx;
     renderCurrentDrillQuestion();
+
+    if (window.innerWidth <= 900) {
+      const card = document.getElementById('drill-question-card');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   }
 }
 
@@ -549,6 +576,13 @@ function toggleCbtPaletteMobile() {
   }
 }
 
+function scrollBackToQuestionMobile() {
+  const qPane = document.querySelector('.ibps-q-pane');
+  if (qPane) {
+    qPane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function exitCbtExam() {
   if (confirm('Are you sure you want to exit the simulation test? Current progress will be discarded.')) {
     clearInterval(state.cbt.timerInterval);
@@ -725,6 +759,14 @@ function showCheatSheet(topic) {
   const contentDiv = document.getElementById('cheatsheet-content');
   if (contentDiv && window.cheatSheets && window.cheatSheets[topic]) {
     contentDiv.innerHTML = window.cheatSheets[topic];
+  }
+
+  // Smoothly center active cheat tab in mobile scroller
+  if (window.innerWidth <= 900) {
+    const activeTab = document.querySelector('.cheat-tab.active');
+    if (activeTab && typeof activeTab.scrollIntoView === 'function') {
+      activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
   }
 }
 
