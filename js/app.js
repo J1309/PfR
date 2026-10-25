@@ -90,6 +90,10 @@ function initCountdown() {
   const timerElem = document.getElementById('countdown-timer');
 
   function update() {
+    if (state.activeExam === 'cgpdtm') {
+      if (timerElem) timerElem.textContent = '🔥 Interview Tomorrow!';
+      return;
+    }
     const now = new Date().getTime();
     const diff = targetDate - now;
     if (diff <= 0) {
@@ -999,7 +1003,7 @@ function switchExamTrack(track) {
     if (brandBadge) brandBadge.textContent = 'CGPDTM 2026';
     if (brandTitle) brandTitle.textContent = 'Networking & Cybersecurity Interview';
     if (brandSub) brandSub.textContent = 'Boudhik Sampada Bhawan, Dwarka Sec 14';
-    if (countdownTimer) countdownTimer.textContent = '🔥 Interview Tomorrow! (Dwarka Sec 14)';
+    if (countdownTimer) countdownTimer.textContent = '🔥 Interview Tomorrow!';
 
     // Hide all views first
     document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
