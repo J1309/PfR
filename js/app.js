@@ -1,7 +1,8 @@
-// PFRDA Grade A Exam Readiness Platform — Core Application Logic
+// PFRDA Grade A & CGPDTM Exam Readiness Platform — Core Application Logic
 
 // Global State
 const state = {
+  activeExam: localStorage.getItem('active_exam_track') || 'cgpdtm', // Defaults to CGPDTM for tomorrow's interview
   currentView: 'drill',
   theme: 'dark',
   drill: {
@@ -20,7 +21,18 @@ const state = {
     secondsLeft: 2400, // 40 mins default for Paper 2
     isSubmitted: false
   },
-  bookmarks: JSON.parse(localStorage.getItem('pfrda_bookmarks') || '[]')
+  bookmarks: JSON.parse(localStorage.getItem('pfrda_bookmarks') || '[]'),
+  cgpdtm: {
+    currentView: 'qa', // 'qa', 'sim', 'cheats', 'check', 'bookmarks'
+    currentTopic: 'networking_core',
+    currentIndex: 0,
+    revealedAnswers: {}, // { qId: boolean }
+    scenarioId: 'sc_01',
+    scenarioStep: 0,
+    scenarioAnswers: {}, // { 'sc_01_0': selectedIndex }
+    checklist: JSON.parse(localStorage.getItem('cgpdtm_checklist') || '{}'),
+    bookmarks: JSON.parse(localStorage.getItem('cgpdtm_bookmarks') || '[]')
+  }
 };
 
 // Initialize App on DOM Ready
@@ -31,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
   showCheatSheet('pension');
   setupKeyboardShortcuts();
   initChecklist();
+
+  // Initialize CGPDTM Studio
+  initCgpdtm();
+
+  // Apply saved or default exam track
+  const initialTrack = localStorage.getItem('active_exam_track') || 'cgpdtm';
+  switchExamTrack(initialTrack);
 });
 
 // ==========================================================================
@@ -876,7 +895,8 @@ function clearAllBookmarks() {
 // ==========================================================================
 function setupKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
-    if (state.currentView === 'drill') {
+    // If active track is PFRDA
+    if (state.activeExam === 'pfrda' && state.currentView === 'drill') {
       const key = e.key;
       // 1 to 5 for options
       if (['1', '2', '3', '4', '5'].includes(key)) {
@@ -899,11 +919,32 @@ function setupKeyboardShortcuts() {
         toggleStarCurrentQuestion();
       }
     }
+
+    // If active track is CGPDTM Interview Studio
+    if (state.activeExam === 'cgpdtm' && state.cgpdtm.currentView === 'qa') {
+      const key = e.key;
+      if (key === ' ' || key === 'Enter') {
+        // Prevent page scroll on space
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          toggleCgpdtmRevealAnswer();
+        }
+      }
+      if (key === 'ArrowRight' || key === 'n' || key === 'N') {
+        navigateCgpdtmQuestion(1);
+      }
+      if (key === 'ArrowLeft' || key === 'p' || key === 'P') {
+        navigateCgpdtmQuestion(-1);
+      }
+      if (key === 's' || key === 'S') {
+        toggleStarCgpdtmCurrentQuestion();
+      }
+    }
   });
 }
 
 // ==========================================================================
-// 7. Exam Day Checklist Persistence
+// 7. Exam Day Checklist Persistence (PFRDA)
 // ==========================================================================
 function initChecklist() {
   try {
@@ -931,3 +972,602 @@ function toggleChecklistItem(cb) {
     console.error('Error saving checklist', e);
   }
 }
+
+// ==========================================================================
+// 8. CGPDTM INTERVIEW STUDIO CONTROLLERS & ENGINE
+// ==========================================================================
+
+function switchExamTrack(track) {
+  state.activeExam = track;
+  localStorage.setItem('active_exam_track', track);
+
+  const btnPfrda = document.getElementById('btn-track-pfrda');
+  const btnCgpdtm = document.getElementById('btn-track-cgpdtm');
+  const pfrdaNav = document.getElementById('pfrda-header-nav');
+  const cgpdtmNav = document.getElementById('cgpdtm-header-nav');
+  const brandBadge = document.getElementById('app-brand-badge');
+  const brandTitle = document.getElementById('app-brand-title');
+  const brandSub = document.getElementById('app-brand-sub');
+  const countdownTimer = document.getElementById('countdown-timer');
+
+  if (track === 'cgpdtm') {
+    if (btnPfrda) btnPfrda.classList.remove('active');
+    if (btnCgpdtm) btnCgpdtm.classList.add('active');
+    if (pfrdaNav) pfrdaNav.classList.add('hidden');
+    if (cgpdtmNav) cgpdtmNav.classList.remove('hidden');
+
+    if (brandBadge) brandBadge.textContent = 'CGPDTM 2026';
+    if (brandTitle) brandTitle.textContent = 'Networking & Cybersecurity Interview';
+    if (brandSub) brandSub.textContent = 'Boudhik Sampada Bhawan, Dwarka Sec 14';
+    if (countdownTimer) countdownTimer.textContent = '🔥 Interview Tomorrow! (Dwarka Sec 14)';
+
+    // Hide all views first
+    document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+    switchCgpdtmView(state.cgpdtm.currentView || 'qa');
+  } else {
+    if (btnPfrda) btnPfrda.classList.add('active');
+    if (btnCgpdtm) btnCgpdtm.classList.remove('active');
+    if (pfrdaNav) pfrdaNav.classList.remove('hidden');
+    if (cgpdtmNav) cgpdtmNav.classList.add('hidden');
+
+    if (brandBadge) brandBadge.textContent = 'PFRDA 2026';
+    if (brandTitle) brandTitle.textContent = 'Grade A Assistant Manager';
+    if (brandSub) brandSub.textContent = 'Phase 1 Completed • Phase 2 Prep';
+    if (countdownTimer) countdownTimer.textContent = 'Phase 2 Preparation';
+
+    // Hide all views first
+    document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+    switchView(state.currentView || 'drill');
+  }
+}
+
+function initCgpdtm() {
+  if (!window.cgpdtmModules) return;
+
+  // Render scenario pills
+  const simPillsContainer = document.getElementById('scenario-selector-pills');
+  if (simPillsContainer && window.cgpdtmScenarios) {
+    simPillsContainer.innerHTML = window.cgpdtmScenarios.map((sc, idx) => `
+      <button class="scenario-pill-btn ${idx === 0 ? 'active' : ''}" data-scid="${sc.id}" onclick="selectCgpdtmScenario('${sc.id}')">
+        Ticket #${101 + idx}: ${sc.title.split(':')[0].replace('Scenario ', 'Case ')}
+      </button>
+    `).join('');
+  }
+
+  // Render checklist
+  renderCgpdtmChecklist();
+
+  // Render initial Q&A
+  renderCgpdtmQuestion();
+
+  // Render initial scenario
+  renderCgpdtmScenario();
+
+  // Render initial cheatsheet
+  renderCgpdtmCheats('ports');
+
+  // Update badges
+  updateCgpdtmBadges();
+}
+
+function switchCgpdtmView(viewName) {
+  state.cgpdtm.currentView = viewName;
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#cgpdtm-header-nav .nav-btn').forEach(btn => btn.classList.remove('active'));
+
+  const activePanel = document.getElementById(`view-cgpdtm-${viewName}`);
+  const activeNav = document.getElementById(`nav-cgpdtm-${viewName}`);
+  if (activePanel) activePanel.classList.add('active');
+  if (activeNav) activeNav.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  if (viewName === 'qa') {
+    renderCgpdtmQuestion();
+  } else if (viewName === 'sim') {
+    renderCgpdtmScenario();
+  } else if (viewName === 'cheats') {
+    renderCgpdtmCheats('ports');
+  } else if (viewName === 'check') {
+    renderCgpdtmChecklist();
+  } else if (viewName === 'bookmarks') {
+    renderCgpdtmBookmarks();
+  }
+}
+
+// --------------------------------------------------------------------------
+// CGPDTM Verbal Q&A Studio Controller
+// --------------------------------------------------------------------------
+
+function selectCgpdtmTopic(topicKey) {
+  state.cgpdtm.currentTopic = topicKey;
+  state.cgpdtm.currentIndex = 0;
+
+  // Update topic buttons active state
+  document.querySelectorAll('.topic-btn[data-cgtopic]').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-cgtopic') === topicKey);
+  });
+
+  const topicTitles = {
+    networking_core: {
+      title: 'Networking Fundamentals (Must Know)',
+      desc: 'OSI 7-Layer, TCP/IP, Switches, VLANs, and Core Infrastructure'
+    },
+    ip_services_ports: {
+      title: 'IP Addressing & Services (High Yield)',
+      desc: 'RFC 1918 Private Ranges, DHCP DORA, DNS Resolution, NAT, and Critical Ports'
+    },
+    cli_tools_diagnostics: {
+      title: 'CLI Diagnostics & Tools (Hands-on CLI)',
+      desc: 'ipconfig /all, ping, tracert, nslookup, netstat -ano, Linux ss -tuln, Wireshark'
+    },
+    cyber_security: {
+      title: 'Cybersecurity Controls (Security Operations)',
+      desc: 'CIA Triad, Stateful Firewalls, IDS vs IPS, VPN IPsec/SSL, SIEM, Incident Response'
+    },
+    behavioral_govt_it: {
+      title: 'Behavioral & Govt IT Ethics (Interview Practice)',
+      desc: '60s Introduction, Project Defense, Unauthorized Requests, Patent Confidentiality'
+    },
+    interviewer_questions: {
+      title: 'Questions for the Interview Panel (Smart Endings)',
+      desc: 'Professional questions to ask the interview board at Boudhik Sampada Bhawan'
+    }
+  };
+
+  const info = topicTitles[topicKey] || topicTitles.networking_core;
+  const titleElem = document.getElementById('cgpdtm-topic-title');
+  const descElem = document.getElementById('cgpdtm-topic-desc');
+  if (titleElem) titleElem.textContent = info.title;
+  if (descElem) descElem.textContent = info.desc;
+
+  // Center button in scroll on mobile
+  if (window.innerWidth <= 900) {
+    const activeBtn = document.querySelector(`.topic-btn[data-cgtopic="${topicKey}"]`);
+    if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
+      activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+
+  renderCgpdtmQuestion();
+}
+
+function renderCgpdtmQuestion() {
+  if (!window.cgpdtmModules) return;
+  const questions = window.cgpdtmModules[state.cgpdtm.currentTopic] || [];
+  const idx = state.cgpdtm.currentIndex;
+  if (!questions.length) return;
+
+  const q = questions[idx];
+  const currIdxElem = document.getElementById('cgpdtm-curr-idx');
+  const totalIdxElem = document.getElementById('cgpdtm-total-idx');
+  const topicElem = document.getElementById('cgpdtm-q-topic');
+  const priorityElem = document.getElementById('cgpdtm-q-priority');
+  const textElem = document.getElementById('cgpdtm-q-text');
+
+  if (currIdxElem) currIdxElem.textContent = idx + 1;
+  if (totalIdxElem) totalIdxElem.textContent = questions.length;
+  if (topicElem) topicElem.textContent = q.topic || 'Networking';
+  if (priorityElem) priorityElem.textContent = q.priority || 'High Yield';
+  if (textElem) textElem.textContent = q.question;
+
+  // Star button state
+  const isStarred = state.cgpdtm.bookmarks.some(b => b.id === q.id);
+  const starBtn = document.getElementById('btn-star-cgpdtm');
+  if (starBtn) {
+    starBtn.textContent = isStarred ? '⭐ Starred' : '☆ Star Question';
+    starBtn.classList.toggle('active', isStarred);
+  }
+
+  // Answer Drawer State
+  const answerBox = document.getElementById('cgpdtm-answer-box');
+  const revealBtn = document.getElementById('btn-cgpdtm-reveal');
+  const isRevealed = !!state.cgpdtm.revealedAnswers[q.id];
+
+  if (answerBox) {
+    if (isRevealed) {
+      answerBox.classList.remove('hidden');
+      if (revealBtn) revealBtn.textContent = '🙈 Hide Spoken Answer';
+
+      // Populate content
+      const contentElem = document.getElementById('cgpdtm-answer-content');
+      if (contentElem) contentElem.textContent = q.spokenAnswer;
+
+      // Populate keywords
+      const kwContainer = document.getElementById('cgpdtm-keywords-container');
+      if (kwContainer) {
+        kwContainer.innerHTML = (q.keywords || []).map(kw => `<span class="keyword-tag">${kw}</span>`).join('');
+      }
+
+      // Populate trap follow-up
+      const trapElem = document.getElementById('cgpdtm-trap-content');
+      if (trapElem) trapElem.textContent = q.trapFollowUp || 'No trap recorded.';
+    } else {
+      answerBox.classList.add('hidden');
+      if (revealBtn) revealBtn.textContent = '🎙️ Click to Reveal 60-Sec Spoken Answer (Speak Aloud)';
+    }
+  }
+
+  // Prev / Next button states
+  const btnPrev = document.getElementById('btn-cgpdtm-prev');
+  const btnNext = document.getElementById('btn-cgpdtm-next');
+  if (btnPrev) btnPrev.disabled = idx === 0;
+  if (btnNext) btnNext.disabled = idx === questions.length - 1;
+}
+
+function toggleCgpdtmRevealAnswer() {
+  const questions = window.cgpdtmModules[state.cgpdtm.currentTopic] || [];
+  const q = questions[state.cgpdtm.currentIndex];
+  if (!q) return;
+
+  state.cgpdtm.revealedAnswers[q.id] = !state.cgpdtm.revealedAnswers[q.id];
+  renderCgpdtmQuestion();
+
+  // Scroll to answer box smoothly on reveal
+  if (state.cgpdtm.revealedAnswers[q.id]) {
+    setTimeout(() => {
+      const box = document.getElementById('cgpdtm-answer-box');
+      if (box) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+  }
+}
+
+function navigateCgpdtmQuestion(delta) {
+  const questions = window.cgpdtmModules[state.cgpdtm.currentTopic] || [];
+  const newIdx = state.cgpdtm.currentIndex + delta;
+  if (newIdx >= 0 && newIdx < questions.length) {
+    state.cgpdtm.currentIndex = newIdx;
+    renderCgpdtmQuestion();
+
+    if (window.innerWidth <= 900) {
+      const card = document.getElementById('cgpdtm-question-card');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+function shuffleCgpdtmCurrentTopic() {
+  const questions = window.cgpdtmModules[state.cgpdtm.currentTopic] || [];
+  questions.sort(() => Math.random() - 0.5);
+  state.cgpdtm.currentIndex = 0;
+  renderCgpdtmQuestion();
+}
+
+function toggleStarCgpdtmCurrentQuestion() {
+  const questions = window.cgpdtmModules[state.cgpdtm.currentTopic] || [];
+  const q = questions[state.cgpdtm.currentIndex];
+  if (!q) return;
+
+  const idx = state.cgpdtm.bookmarks.findIndex(b => b.id === q.id);
+  if (idx > -1) {
+    state.cgpdtm.bookmarks.splice(idx, 1);
+  } else {
+    state.cgpdtm.bookmarks.push({ ...q, topicKey: state.cgpdtm.currentTopic });
+  }
+
+  localStorage.setItem('cgpdtm_bookmarks', JSON.stringify(state.cgpdtm.bookmarks));
+  updateCgpdtmBadges();
+  renderCgpdtmQuestion();
+}
+
+function renderCgpdtmBookmarks() {
+  const container = document.getElementById('cgpdtm-bookmarks-list');
+  if (!container) return;
+
+  const bookmarks = state.cgpdtm.bookmarks || [];
+  if (!bookmarks.length) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⭐</div>
+        <h3>No Starred Questions Yet</h3>
+        <p style="font-size: 0.88rem; max-width: 400px; margin: 0 auto;">While practicing in the Verbal Q&A Studio, click "☆ Star Question" on any concept you want to quickly review tomorrow morning before your interview.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = bookmarks.map((q, i) => `
+    <div class="question-card" style="margin-bottom: 1.5rem;">
+      <div class="question-meta">
+        <span class="badge-source">${q.topic || 'Interview'}</span>
+        <span class="badge-difficulty">${q.priority || 'Starred'}</span>
+      </div>
+      <div class="question-text" style="font-size: 1.05rem;">${i + 1}. ${q.question}</div>
+      <div style="background: var(--bg-tertiary); border-left: 4px solid var(--accent-secondary); padding: 1rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.92rem; line-height: 1.6; white-space: pre-line;">
+        <strong>Ideal Verbal Answer:</strong>\n${q.spokenAnswer}
+      </div>
+      ${q.trapFollowUp ? `
+        <div class="cgpdtm-trap-box" style="margin-top: 0.75rem;">
+          <div class="cgpdtm-trap-title">⚠️ Common Trap / Follow-up:</div>
+          <div class="cgpdtm-trap-content">${q.trapFollowUp}</div>
+        </div>
+      ` : ''}
+    </div>
+  `).join('');
+}
+
+// --------------------------------------------------------------------------
+// CGPDTM Troubleshooting Simulator Controller
+// --------------------------------------------------------------------------
+
+function selectCgpdtmScenario(scenarioId) {
+  state.cgpdtm.scenarioId = scenarioId;
+  state.cgpdtm.scenarioStep = 0;
+
+  // Update pills
+  document.querySelectorAll('#scenario-selector-pills .scenario-pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-scid') === scenarioId);
+  });
+
+  renderCgpdtmScenario();
+}
+
+function renderCgpdtmScenario() {
+  if (!window.cgpdtmScenarios) return;
+  const scenario = window.cgpdtmScenarios.find(s => s.id === state.cgpdtm.scenarioId) || window.cgpdtmScenarios[0];
+  if (!scenario) return;
+
+  const ticketIdElem = document.getElementById('sim-ticket-id');
+  const ticketTitleElem = document.getElementById('sim-ticket-title');
+  const ticketContextElem = document.getElementById('sim-ticket-context');
+  const stepBadgeElem = document.getElementById('sim-step-badge');
+  const stepTitleElem = document.getElementById('sim-step-title');
+  const stepInstructionElem = document.getElementById('sim-step-instruction');
+  const optionsContainer = document.getElementById('sim-options-container');
+  const feedbackBox = document.getElementById('sim-feedback-box');
+
+  const stepIdx = state.cgpdtm.scenarioStep;
+  const totalSteps = scenario.steps.length;
+
+  if (ticketIdElem) ticketIdElem.textContent = `TICKET #${scenario.id.toUpperCase()}`;
+  if (ticketTitleElem) ticketTitleElem.textContent = scenario.title;
+  if (ticketContextElem) ticketContextElem.textContent = scenario.context;
+
+  // Check if scenario is completed
+  if (stepIdx >= totalSteps) {
+    if (stepBadgeElem) stepBadgeElem.textContent = 'COMPLETED';
+    if (stepTitleElem) stepTitleElem.textContent = 'Incident Successfully Resolved!';
+    if (stepInstructionElem) stepInstructionElem.textContent = 'Congratulations! You methodically diagnosed and resolved this issue using proper Layer 1 to Layer 7 protocols.';
+    if (optionsContainer) {
+      optionsContainer.innerHTML = `
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1.5px solid var(--status-success); padding: 1.5rem; border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🎉</div>
+          <h4 style="color: var(--status-success); font-size: 1.1rem; margin-bottom: 0.5rem;">Methodology Mastered</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">You verified physical links first, checked IP & DHCP, tested gateway connectivity, and isolated DNS resolution.</p>
+          <button class="btn-nav primary" onclick="selectCgpdtmScenario('${getNextScenarioId(scenario.id)}')">
+            Advance to Next Real-World Ticket →
+          </button>
+        </div>
+      `;
+    }
+    if (feedbackBox) feedbackBox.classList.add('hidden');
+    return;
+  }
+
+  const step = scenario.steps[stepIdx];
+  if (stepBadgeElem) stepBadgeElem.textContent = `Step ${stepIdx + 1} of ${totalSteps}`;
+  if (stepTitleElem) stepTitleElem.textContent = step.title;
+  if (stepInstructionElem) stepInstructionElem.textContent = step.instruction;
+
+  const answerKey = `${scenario.id}_${stepIdx}`;
+  const userAnswer = state.cgpdtm.scenarioAnswers[answerKey];
+  const hasAnswered = userAnswer !== undefined;
+
+  if (optionsContainer) {
+    optionsContainer.innerHTML = step.options.map((optText, optIdx) => {
+      let extraClass = '';
+      if (hasAnswered) {
+        extraClass = 'locked ';
+        if (optIdx === step.correctIndex) extraClass += 'correct';
+        else if (optIdx === userAnswer) extraClass += 'incorrect';
+      }
+      return `
+        <div class="sim-option-item ${extraClass}" onclick="handleCgpdtmScenarioChoice(${optIdx})">
+          <span class="option-key">${String.fromCharCode(65 + optIdx)}</span>
+          <span class="option-text">${optText}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (feedbackBox) {
+    if (hasAnswered) {
+      feedbackBox.classList.remove('hidden');
+      const isCorrect = userAnswer === step.correctIndex;
+      const statusElem = document.getElementById('sim-feedback-status');
+      const textElem = document.getElementById('sim-feedback-text');
+
+      if (statusElem) {
+        statusElem.textContent = isCorrect ? '✅ Excellent Diagnostic Choice' : '❌ Sub-optimal / Premature Action';
+        statusElem.style.color = isCorrect ? 'var(--status-success)' : 'var(--status-danger)';
+      }
+      if (textElem) textElem.textContent = step.explanation;
+    } else {
+      feedbackBox.classList.add('hidden');
+    }
+  }
+}
+
+function handleCgpdtmScenarioChoice(optIdx) {
+  const scenario = window.cgpdtmScenarios.find(s => s.id === state.cgpdtm.scenarioId);
+  if (!scenario) return;
+
+  const stepIdx = state.cgpdtm.scenarioStep;
+  const answerKey = `${scenario.id}_${stepIdx}`;
+  if (state.cgpdtm.scenarioAnswers[answerKey] !== undefined) return;
+
+  state.cgpdtm.scenarioAnswers[answerKey] = optIdx;
+  renderCgpdtmScenario();
+}
+
+function advanceCgpdtmScenarioStep() {
+  state.cgpdtm.scenarioStep++;
+  renderCgpdtmScenario();
+}
+
+function getNextScenarioId(currentId) {
+  const list = window.cgpdtmScenarios || [];
+  const idx = list.findIndex(s => s.id === currentId);
+  if (idx > -1 && idx < list.length - 1) {
+    return list[idx + 1].id;
+  }
+  return list[0].id;
+}
+
+// --------------------------------------------------------------------------
+// CGPDTM Cheatsheets Controller
+// --------------------------------------------------------------------------
+
+function switchCgpdtmCheatTab(tabKey) {
+  const btnPorts = document.getElementById('btn-cheat-ports');
+  const btnCommands = document.getElementById('btn-cheat-commands');
+  const btnGolden = document.getElementById('btn-cheat-golden');
+
+  if (btnPorts) btnPorts.classList.toggle('active', tabKey === 'ports');
+  if (btnCommands) btnCommands.classList.toggle('active', tabKey === 'commands');
+  if (btnGolden) btnGolden.classList.toggle('active', tabKey === 'golden');
+
+  renderCgpdtmCheats(tabKey);
+}
+
+function renderCgpdtmCheats(tabKey) {
+  const container = document.getElementById('cgpdtm-cheats-display');
+  if (!container || !window.cgpdtmCheatSheets) return;
+
+  if (tabKey === 'ports') {
+    const ports = window.cgpdtmCheatSheets.ports || [];
+    container.innerHTML = `
+      <div class="table-responsive">
+        <table class="cgpdtm-table">
+          <thead>
+            <tr>
+              <th>Port Number</th>
+              <th>Protocol</th>
+              <th>Service / Purpose</th>
+              <th>High-Yield Exam & Troubleshooting Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${ports.map(p => `
+              <tr>
+                <td><span class="port-pill">Port ${p.port}</span></td>
+                <td><span class="proto-pill">${p.protocol}</span></td>
+                <td><strong style="color: var(--text-main);">${p.service}</strong></td>
+                <td>${p.notes}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else if (tabKey === 'commands') {
+    const cmds = window.cgpdtmCheatSheets.commands || [];
+    container.innerHTML = `
+      <div class="table-responsive">
+        <table class="cgpdtm-table">
+          <thead>
+            <tr>
+              <th>Windows CLI Command</th>
+              <th>Linux Equivalent Command</th>
+              <th>Diagnostic Action / Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cmds.map(c => `
+              <tr>
+                <td><span class="cmd-code">${c.win}</span></td>
+                <td><span class="cmd-code" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.3);">${c.linux}</span></td>
+                <td>${c.purpose}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else if (tabKey === 'golden') {
+    container.innerHTML = `
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-top: 4px solid var(--accent-primary); padding: 1.25rem; border-radius: var(--radius-md);">
+          <h4 style="color: var(--accent-primary); margin-bottom: 0.4rem;">Rule 1: Always Start at Layer 1</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Never reconfigure software or reboot routers until physical link lights (LEDs), Ethernet cables, and adapter toggles are verified.</p>
+        </div>
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-top: 4px solid var(--accent-secondary); padding: 1.25rem; border-radius: var(--radius-md);">
+          <h4 style="color: var(--accent-secondary); margin-bottom: 0.4rem;">Rule 2: Determine Scope First</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Check if the problem affects one PC, the room, or the entire floor. Single-host = local config/cable; Multi-host = switch, DHCP, or uplink.</p>
+        </div>
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-top: 4px solid var(--status-warning); padding: 1.25rem; border-radius: var(--radius-md);">
+          <h4 style="color: var(--status-warning); margin-bottom: 0.4rem;">Rule 3: Separate IP Ping vs DNS</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Always ping a raw public IP (8.8.8.8) to test Layer 3 WAN routing, and use nslookup to test DNS. Do not conflate routing failure with name resolution.</p>
+        </div>
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-top: 4px solid var(--status-danger); padding: 1.25rem; border-radius: var(--radius-md);">
+          <h4 style="color: var(--status-danger); margin-bottom: 0.4rem;">Rule 4: Never Experiment on Production</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">In a government office like CGPDTM, never make ad-hoc unauthorized firewall/proxy changes. Always follow change-control procedures and document tickets.</p>
+        </div>
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-top: 4px solid var(--status-success); padding: 1.25rem; border-radius: var(--radius-md);">
+          <h4 style="color: var(--status-success); margin-bottom: 0.4rem;">Rule 5: Isolate Compounding Incidents</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">If malware or suspicious login bursts are detected, isolate the endpoint immediately from the network, but preserve power to retain volatile forensic RAM.</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// --------------------------------------------------------------------------
+// CGPDTM Must-Know Checklist Controller
+// --------------------------------------------------------------------------
+
+function toggleCgpdtmChecklistItem(chkId) {
+  state.cgpdtm.checklist[chkId] = !state.cgpdtm.checklist[chkId];
+  localStorage.setItem('cgpdtm_checklist', JSON.stringify(state.cgpdtm.checklist));
+  renderCgpdtmChecklist();
+  updateCgpdtmBadges();
+}
+
+function renderCgpdtmChecklist() {
+  const container = document.getElementById('cgpdtm-checklist-grid');
+  if (!container || !window.cgpdtmChecklist) return;
+
+  const items = window.cgpdtmChecklist;
+  const saved = state.cgpdtm.checklist || {};
+  let doneCount = 0;
+
+  container.innerHTML = items.map(item => {
+    const isChecked = !!saved[item.id];
+    if (isChecked) doneCount++;
+    return `
+      <div class="check-item-card ${isChecked ? 'checked' : ''}" onclick="toggleCgpdtmChecklistItem('${item.id}')">
+        <div class="check-box-custom">
+          ${isChecked ? '✓' : ''}
+        </div>
+        <div class="check-text">${item.text}</div>
+        <span class="check-cat-badge">${item.category}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Update progress bar
+  const total = items.length;
+  const pct = Math.round((doneCount / total) * 100);
+  const doneElem = document.getElementById('chk-done-count');
+  const totalElem = document.getElementById('chk-total-count');
+  const fillElem = document.getElementById('chk-progress-fill');
+
+  if (doneElem) doneElem.textContent = doneCount;
+  if (totalElem) totalElem.textContent = total;
+  if (fillElem) fillElem.style.width = `${pct}%`;
+
+  const badgeElem = document.getElementById('cgpdtm-check-badge');
+  if (badgeElem) badgeElem.textContent = `${doneCount}/${total}`;
+}
+
+function updateCgpdtmBadges() {
+  const starCount = (state.cgpdtm.bookmarks || []).length;
+  const starBadge = document.getElementById('cgpdtm-star-badge');
+  if (starBadge) starBadge.textContent = starCount;
+
+  const totalCheck = (window.cgpdtmChecklist || []).length;
+  const doneCheck = Object.values(state.cgpdtm.checklist || {}).filter(Boolean).length;
+  const checkBadge = document.getElementById('cgpdtm-check-badge');
+  if (checkBadge) checkBadge.textContent = `${doneCheck}/${totalCheck}`;
+}
+

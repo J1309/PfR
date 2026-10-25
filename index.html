@@ -15,14 +15,27 @@
     <!-- Top Navigation Bar -->
     <header class="app-header">
       <div class="header-brand">
-        <div class="brand-badge">PFRDA 2026</div>
+        <div class="brand-badge" id="app-brand-badge">CGPDTM 2026</div>
         <div class="brand-titles">
-          <h1>Grade A Assistant Manager</h1>
-          <span class="sub-pill">Exam: 15 Oct 2026</span>
+          <h1 id="app-brand-title">Networking & Cybersecurity Interview</h1>
+          <span class="sub-pill" id="app-brand-sub">Boudhik Sampada Bhawan, Dwarka Sec 14</span>
         </div>
       </div>
 
-      <nav class="header-nav">
+      <!-- Exam Track Switcher Pill -->
+      <div class="exam-track-pill" id="exam-track-switcher" title="Switch between PFRDA Exam and CGPDTM Interview Studio">
+        <button class="track-btn" id="btn-track-pfrda" onclick="switchExamTrack('pfrda')">
+          <span class="track-icon">🏛️</span>
+          <span class="track-text">PFRDA Grade A</span>
+        </button>
+        <button class="track-btn active" id="btn-track-cgpdtm" onclick="switchExamTrack('cgpdtm')">
+          <span class="track-icon">🛡️</span>
+          <span class="track-text">CGPDTM Interview <span class="hot-badge">Tomorrow!</span></span>
+        </button>
+      </div>
+
+      <!-- PFRDA Navigation Bar -->
+      <nav class="header-nav hidden" id="pfrda-header-nav">
         <button id="nav-drill" class="nav-btn active" onclick="switchView('drill')">
           <span class="icon">🎯</span>
           <span class="nav-lbl-desktop">Learn & Drill</span>
@@ -50,10 +63,39 @@
         </button>
       </nav>
 
+      <!-- CGPDTM Interview Navigation Bar -->
+      <nav class="header-nav" id="cgpdtm-header-nav">
+        <button id="nav-cgpdtm-qa" class="nav-btn active" onclick="switchCgpdtmView('qa')">
+          <span class="icon">🎙️</span>
+          <span class="nav-lbl-desktop">Verbal Q&A Studio</span>
+          <span class="nav-lbl-mobile">Q&A</span>
+        </button>
+        <button id="nav-cgpdtm-sim" class="nav-btn" onclick="switchCgpdtmView('sim')">
+          <span class="icon">⚡</span>
+          <span class="nav-lbl-desktop">Troubleshooting Simulator</span>
+          <span class="nav-lbl-mobile">Simulator</span>
+        </button>
+        <button id="nav-cgpdtm-cheats" class="nav-btn" onclick="switchCgpdtmView('cheats')">
+          <span class="icon">📑</span>
+          <span class="nav-lbl-desktop">Command & Port Cheats</span>
+          <span class="nav-lbl-mobile">Cheats</span>
+        </button>
+        <button id="nav-cgpdtm-check" class="nav-btn" onclick="switchCgpdtmView('check')">
+          <span class="icon">✅</span>
+          <span class="nav-lbl-desktop">Must-Know Checklist (<span id="cgpdtm-check-badge">0/15</span>)</span>
+          <span class="nav-lbl-mobile">Checklist</span>
+        </button>
+        <button id="nav-cgpdtm-bookmarks" class="nav-btn" onclick="switchCgpdtmView('bookmarks')">
+          <span class="icon">⭐</span>
+          <span class="nav-lbl-desktop">Starred (<span id="cgpdtm-star-badge">0</span>)</span>
+          <span class="nav-lbl-mobile">Starred</span>
+        </button>
+      </nav>
+
       <div class="header-controls">
-        <div class="countdown-badge" title="Time remaining until 15 October 2026">
+        <div class="countdown-badge" id="cgpdtm-timer-badge" title="Interview at Boudhik Sampada Bhawan, Dwarka Sec 14">
           <span class="pulse-dot"></span>
-          <span id="countdown-timer">4 Days Remaining</span>
+          <span id="countdown-timer">🔥 Interview Tomorrow! (Dwarka Sec 14)</span>
         </div>
         <button id="theme-toggle" class="icon-btn" title="Toggle Theme" onclick="toggleTheme()">
           🌓
@@ -626,6 +668,274 @@
             </div>
           </div>
         </div>
+      <!-- ================================================================== -->
+      <!-- CGPDTM VIEW 1: VERBAL Q&A STUDIO (RAPID INTERVIEW CARDS) -->
+      <!-- ================================================================== -->
+      <section id="view-cgpdtm-qa" class="view-panel active">
+        <div class="drill-layout">
+          <!-- Sidebar: CGPDTM Interview Syllabus Modules -->
+          <aside class="drill-sidebar">
+            <div class="sidebar-header">
+              <h3>Interview Modules</h3>
+              <span class="badge-total" id="cgpdtm-total-badge">47 Core Qs</span>
+            </div>
+
+            <div class="module-group">
+              <div class="group-title">TECHNICAL & SYSTEM INTERVIEW (DPIIT / CGPDTM)</div>
+              <div class="topic-chips-scroll">
+                <button class="topic-btn active" data-cgtopic="networking_core" onclick="selectCgpdtmTopic('networking_core')">
+                  <span class="topic-icon">🌐</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Networking Fundamentals</span>
+                      <span class="priority-tag highest">Must Know</span>
+                    </div>
+                    <span class="topic-stats">10 Qs • OSI 7-Layer, TCP/IP, Switches, VLANs</span>
+                  </div>
+                </button>
+
+                <button class="topic-btn" data-cgtopic="ip_services_ports" onclick="selectCgpdtmTopic('ip_services_ports')">
+                  <span class="topic-icon">🔢</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">IP Addressing & Services</span>
+                      <span class="priority-tag high">High Yield</span>
+                    </div>
+                    <span class="topic-stats">10 Qs • Private IP, DHCP DORA, DNS, NAT, Ports</span>
+                  </div>
+                </button>
+
+                <button class="topic-btn" data-cgtopic="cli_tools_diagnostics" onclick="selectCgpdtmTopic('cli_tools_diagnostics')">
+                  <span class="topic-icon">🛠️</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">CLI Diagnostics & Tools</span>
+                      <span class="priority-tag high">Hands-on</span>
+                    </div>
+                    <span class="topic-stats">10 Qs • ping, ipconfig, tracert, Wireshark, netstat</span>
+                  </div>
+                </button>
+
+                <button class="topic-btn" data-cgtopic="cyber_security" onclick="selectCgpdtmTopic('cyber_security')">
+                  <span class="topic-icon">🛡️</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Cybersecurity & Controls</span>
+                      <span class="priority-tag med-high">Security</span>
+                    </div>
+                    <span class="topic-stats">10 Qs • CIA Triad, Firewalls, IDS/IPS, VPN, SIEM</span>
+                  </div>
+                </button>
+
+                <button class="topic-btn" data-cgtopic="behavioral_govt_it" onclick="selectCgpdtmTopic('behavioral_govt_it')">
+                  <span class="topic-icon">💼</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Behavioral & Govt IT Ethics</span>
+                      <span class="priority-tag quick-rev">Ethics</span>
+                    </div>
+                    <span class="topic-stats">6 Qs • 60s Intro, Unauthorized Requests, Secrets</span>
+                  </div>
+                </button>
+
+                <button class="topic-btn" data-cgtopic="interviewer_questions" onclick="selectCgpdtmTopic('interviewer_questions')">
+                  <span class="topic-icon">❓</span>
+                  <div class="topic-info">
+                    <div class="topic-top-row">
+                      <span class="topic-name">Questions for the Panel</span>
+                      <span class="priority-tag medium">Smart Endings</span>
+                    </div>
+                    <span class="topic-stats">Strategic Questions to Ask Interviewers</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <div class="sidebar-card">
+              <h4>🏢 Dwarka IPO Context</h4>
+              <p>Boudhik Sampada Bhawan, Dwarka Sec 14 handles national IP registers. Interviewers focus on <strong>authorized procedures, confidentiality, and methodical Layer 1-7 troubleshooting</strong>.</p>
+            </div>
+          </aside>
+
+          <!-- CGPDTM Q&A Arena -->
+          <div class="drill-arena">
+            <div class="arena-toolbar">
+              <div class="topic-heading">
+                <h2 id="cgpdtm-topic-title">Networking Fundamentals (Must Know)</h2>
+                <p id="cgpdtm-topic-desc">OSI 7-Layer, TCP/IP, Switches, VLANs, and Core Infrastructure</p>
+              </div>
+              <div class="toolbar-actions">
+                <div class="progress-indicator">
+                  Question <span id="cgpdtm-curr-idx">1</span> of <span id="cgpdtm-total-idx">10</span>
+                </div>
+                <button id="btn-star-cgpdtm" class="action-btn" onclick="toggleStarCgpdtmCurrentQuestion()">
+                  ☆ Star Question
+                </button>
+                <button class="action-btn secondary" onclick="shuffleCgpdtmCurrentTopic()">
+                  🔀 Shuffle
+                </button>
+              </div>
+            </div>
+
+            <!-- Verbal Question Card -->
+            <div class="question-card" id="cgpdtm-question-card">
+              <div class="question-meta">
+                <span class="badge-source" id="cgpdtm-q-topic">OSI Reference Model</span>
+                <span class="badge-difficulty" id="cgpdtm-q-priority">Must Know</span>
+              </div>
+
+              <div class="question-text" id="cgpdtm-q-text">
+                Loading question...
+              </div>
+
+              <!-- Reveal Spoken Answer Button -->
+              <button id="btn-cgpdtm-reveal" class="btn-cgpdtm-reveal" onclick="toggleCgpdtmRevealAnswer()">
+                🎙️ Click to Reveal 60-Sec Spoken Answer (Speak Aloud)
+              </button>
+
+              <!-- Spoken Answer & Coaching Drawer -->
+              <div class="cgpdtm-answer-box hidden" id="cgpdtm-answer-box">
+                <div class="cgpdtm-answer-header">
+                  <span class="cgpdtm-answer-tag">🗣️ Ideal 60-Second Verbal Answer</span>
+                  <span class="cgpdtm-listen-hint">Practice saying this aloud!</span>
+                </div>
+                <div class="cgpdtm-answer-content" id="cgpdtm-answer-content"></div>
+
+                <div class="cgpdtm-keywords-box">
+                  <div class="cgpdtm-box-title">🔑 Key Terms & Concepts to Mention to Panel:</div>
+                  <div class="cgpdtm-keywords-pills" id="cgpdtm-keywords-container"></div>
+                </div>
+
+                <div class="cgpdtm-trap-box" id="cgpdtm-trap-box">
+                  <div class="cgpdtm-trap-title">⚠️ Common Interviewer Trap / Follow-up:</div>
+                  <div class="cgpdtm-trap-content" id="cgpdtm-trap-content"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="arena-footer">
+              <button class="btn-nav" id="btn-cgpdtm-prev" onclick="navigateCgpdtmQuestion(-1)">← Previous</button>
+              <div class="shortcuts-hint">Tip: Space to reveal answer, Left/Right arrow keys to navigate.</div>
+              <button class="btn-nav primary" id="btn-cgpdtm-next" onclick="navigateCgpdtmQuestion(1)">Next Question →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- CGPDTM VIEW 2: TROUBLESHOOTING SIMULATOR -->
+      <!-- ================================================================== -->
+      <section id="view-cgpdtm-sim" class="view-panel">
+        <div class="sim-container">
+          <div class="sim-header">
+            <div class="sim-title-group">
+              <h2>⚡ Real-World IT Support Ticket Simulator</h2>
+              <p>Practice the exact step-by-step diagnostic workflows examiners test during technical interviews.</p>
+            </div>
+            <div class="scenario-pills" id="scenario-selector-pills">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="ticket-card" id="sim-ticket-card">
+            <div class="ticket-top-banner">
+              <div class="ticket-id" id="sim-ticket-id">TICKET #101</div>
+              <div class="ticket-priority" id="sim-ticket-priority">HIGH PRIORITY</div>
+            </div>
+            
+            <div class="ticket-body">
+              <h3 id="sim-ticket-title">Scenario 1: Single Workstation Has No Internet Access</h3>
+              <p class="ticket-context" id="sim-ticket-context"></p>
+            </div>
+
+            <!-- Active Step Card -->
+            <div class="sim-step-card" id="sim-step-card">
+              <div class="step-meta">
+                <span class="step-num-badge" id="sim-step-badge">Step 1 of 6</span>
+                <span class="step-title-text" id="sim-step-title">Layer 1 Physical Inspection</span>
+              </div>
+              <div class="step-instruction" id="sim-step-instruction">
+                What is your very first diagnostic action?
+              </div>
+
+              <div class="sim-options-grid" id="sim-options-container">
+                <!-- Rendered via JS -->
+              </div>
+
+              <!-- Step Feedback Box -->
+              <div class="sim-feedback-box hidden" id="sim-feedback-box">
+                <div class="feedback-status" id="sim-feedback-status"></div>
+                <div class="feedback-explanation" id="sim-feedback-text"></div>
+                <button class="btn-nav primary" id="btn-sim-next-step" onclick="advanceCgpdtmScenarioStep()">
+                  Next Diagnostic Step →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- CGPDTM VIEW 3: COMMAND & PORT CHEATS -->
+      <!-- ================================================================== -->
+      <section id="view-cgpdtm-cheats" class="view-panel">
+        <div class="cheats-container">
+          <div class="cheats-header">
+            <h2>📑 High-Yield Networking & Security Cheatsheets</h2>
+            <p>Immediate visual reference tables for ports, Windows vs Linux commands, and OSI architecture.</p>
+            <div class="cheats-subnav">
+              <button class="cheats-subbtn active" id="btn-cheat-ports" onclick="switchCgpdtmCheatTab('ports')">🔌 Top 12 Port Numbers</button>
+              <button class="cheats-subbtn" id="btn-cheat-commands" onclick="switchCgpdtmCheatTab('commands')">💻 Windows vs Linux CLI</button>
+              <button class="cheats-subbtn" id="btn-cheat-golden" onclick="switchCgpdtmCheatTab('golden')">🏆 5 Golden Troubleshooting Rules</button>
+            </div>
+          </div>
+
+          <div class="cheats-content-area" id="cgpdtm-cheats-display">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- CGPDTM VIEW 4: MUST-KNOW CHECKLIST -->
+      <!-- ================================================================== -->
+      <section id="view-cgpdtm-check" class="view-panel">
+        <div class="checklist-container">
+          <div class="checklist-hero">
+            <div class="checklist-hero-text">
+              <h2>✅ "Must-Know Before Tomorrow" Interview Checklist</h2>
+              <p>Tick off each concept as you review tonight. Ensure you walk into Boudhik Sampada Bhawan with zero blind spots!</p>
+            </div>
+            <div class="checklist-progress-card">
+              <div class="progress-metric">
+                <span id="chk-done-count">0</span> / <span id="chk-total-count">15</span> Mastered
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="chk-progress-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="checklist-grid" id="cgpdtm-checklist-grid">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- CGPDTM VIEW 5: STARRED QUESTIONS -->
+      <!-- ================================================================== -->
+      <section id="view-cgpdtm-bookmarks" class="view-panel">
+        <div class="bookmarks-container">
+          <div class="bookmarks-header">
+            <h2>⭐ Starred Interview Questions for Quick Review</h2>
+            <p>Your high-priority questions saved for last-minute cramming tomorrow morning before entering the interview.</p>
+          </div>
+          <div class="bookmarks-list" id="cgpdtm-bookmarks-list">
+            <!-- Injected via JS -->
+          </div>
+        </div>
       </section>
 
     </main>
@@ -642,6 +952,7 @@
   <script src="js/data/mediaMarketingQuestions.js"></script>
   <script src="js/data/paper1Questions.js"></script>
   <script src="js/data/cheatSheets.js"></script>
+  <script src="js/data/cgpdtmData.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
