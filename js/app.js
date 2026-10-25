@@ -927,14 +927,11 @@ function setupKeyboardShortcuts() {
     // If active track is CGPDTM Interview Studio
     if (state.activeExam === 'cgpdtm' && state.cgpdtm.currentView === 'qa') {
       const key = e.key;
-      if (key === ' ' || key === 'Enter') {
-        // Prevent page scroll on space
-        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-          e.preventDefault();
-          toggleCgpdtmRevealAnswer();
+      if (key === 'ArrowRight' || key === 'n' || key === 'N' || key === ' ' || key === 'Enter') {
+        if ((key === ' ' || key === 'Enter') && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+          return;
         }
-      }
-      if (key === 'ArrowRight' || key === 'n' || key === 'N') {
+        if (key === ' ') e.preventDefault();
         navigateCgpdtmQuestion(1);
       }
       if (key === 'ArrowLeft' || key === 'p' || key === 'P') {
@@ -1031,11 +1028,14 @@ function initCgpdtm() {
   // Render scenario pills
   const simPillsContainer = document.getElementById('scenario-selector-pills');
   if (simPillsContainer && window.cgpdtmScenarios) {
-    simPillsContainer.innerHTML = window.cgpdtmScenarios.map((sc, idx) => `
-      <button class="scenario-pill-btn ${idx === 0 ? 'active' : ''}" data-scid="${sc.id}" onclick="selectCgpdtmScenario('${sc.id}')">
-        Ticket #${101 + idx}: ${sc.title.split(':')[0].replace('Scenario ', 'Case ')}
-      </button>
-    `).join('');
+    simPillsContainer.innerHTML = window.cgpdtmScenarios.map((sc, idx) => {
+      const shortTitle = sc.title.includes(':') ? sc.title.split(':')[1].trim() : sc.title;
+      return `
+        <button class="scenario-pill-btn ${idx === 0 ? 'active' : ''}" data-scid="${sc.id}" onclick="selectCgpdtmScenario('${sc.id}')">
+          Ticket #${101 + idx}: ${shortTitle}
+        </button>
+      `;
+    }).join('');
   }
 
   // Render checklist
@@ -1163,33 +1163,24 @@ function renderCgpdtmQuestion() {
     starBtn.classList.toggle('active', isStarred);
   }
 
-  // Answer Drawer State
+  // Spoken Answer Card — Always visible directly below question for instant cramming
   const answerBox = document.getElementById('cgpdtm-answer-box');
-  const revealBtn = document.getElementById('btn-cgpdtm-reveal');
-  const isRevealed = !!state.cgpdtm.revealedAnswers[q.id];
-
   if (answerBox) {
-    if (isRevealed) {
-      answerBox.classList.remove('hidden');
-      if (revealBtn) revealBtn.textContent = '🙈 Hide Spoken Answer';
+    answerBox.classList.remove('hidden');
 
-      // Populate content
-      const contentElem = document.getElementById('cgpdtm-answer-content');
-      if (contentElem) contentElem.textContent = q.spokenAnswer;
+    // Populate content
+    const contentElem = document.getElementById('cgpdtm-answer-content');
+    if (contentElem) contentElem.textContent = q.spokenAnswer;
 
-      // Populate keywords
-      const kwContainer = document.getElementById('cgpdtm-keywords-container');
-      if (kwContainer) {
-        kwContainer.innerHTML = (q.keywords || []).map(kw => `<span class="keyword-tag">${kw}</span>`).join('');
-      }
-
-      // Populate trap follow-up
-      const trapElem = document.getElementById('cgpdtm-trap-content');
-      if (trapElem) trapElem.textContent = q.trapFollowUp || 'No trap recorded.';
-    } else {
-      answerBox.classList.add('hidden');
-      if (revealBtn) revealBtn.textContent = '🎙️ Click to Reveal 60-Sec Spoken Answer (Speak Aloud)';
+    // Populate keywords
+    const kwContainer = document.getElementById('cgpdtm-keywords-container');
+    if (kwContainer) {
+      kwContainer.innerHTML = (q.keywords || []).map(kw => `<span class="keyword-tag">${kw}</span>`).join('');
     }
+
+    // Populate trap follow-up
+    const trapElem = document.getElementById('cgpdtm-trap-content');
+    if (trapElem) trapElem.textContent = q.trapFollowUp || 'No trap recorded.';
   }
 
   // Prev / Next button states
@@ -1200,20 +1191,7 @@ function renderCgpdtmQuestion() {
 }
 
 function toggleCgpdtmRevealAnswer() {
-  const questions = window.cgpdtmModules[state.cgpdtm.currentTopic] || [];
-  const q = questions[state.cgpdtm.currentIndex];
-  if (!q) return;
-
-  state.cgpdtm.revealedAnswers[q.id] = !state.cgpdtm.revealedAnswers[q.id];
-  renderCgpdtmQuestion();
-
-  // Scroll to answer box smoothly on reveal
-  if (state.cgpdtm.revealedAnswers[q.id]) {
-    setTimeout(() => {
-      const box = document.getElementById('cgpdtm-answer-box');
-      if (box) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 50);
-  }
+  // Spoken answers are now always visible directly on each card
 }
 
 function navigateCgpdtmQuestion(delta) {
@@ -1323,7 +1301,9 @@ function renderCgpdtmScenario() {
   const stepIdx = state.cgpdtm.scenarioStep;
   const totalSteps = scenario.steps.length;
 
-  if (ticketIdElem) ticketIdElem.textContent = `TICKET #${scenario.id.toUpperCase()}`;
+  const scenarioIndex = (window.cgpdtmScenarios || []).findIndex(s => s.id === scenario.id);
+  const ticketNum = scenarioIndex > -1 ? 101 + scenarioIndex : 101;
+  if (ticketIdElem) ticketIdElem.textContent = `TICKET #${ticketNum}`;
   if (ticketTitleElem) ticketTitleElem.textContent = scenario.title;
   if (ticketContextElem) ticketContextElem.textContent = scenario.context;
 

@@ -790,13 +790,8 @@
                 Loading question...
               </div>
 
-              <!-- Reveal Spoken Answer Button -->
-              <button id="btn-cgpdtm-reveal" class="btn-cgpdtm-reveal" onclick="toggleCgpdtmRevealAnswer()">
-                🎙️ Click to Reveal 60-Sec Spoken Answer (Speak Aloud)
-              </button>
-
-              <!-- Spoken Answer & Coaching Drawer -->
-              <div class="cgpdtm-answer-box hidden" id="cgpdtm-answer-box">
+              <!-- Spoken Answer & Coaching Card (Always Visible) -->
+              <div class="cgpdtm-answer-box" id="cgpdtm-answer-box">
                 <div class="cgpdtm-answer-header">
                   <span class="cgpdtm-answer-tag">🗣️ Ideal 60-Second Verbal Answer</span>
                   <span class="cgpdtm-listen-hint">Practice saying this aloud!</span>
@@ -818,7 +813,7 @@
             <!-- Navigation Controls -->
             <div class="arena-footer">
               <button class="btn-nav" id="btn-cgpdtm-prev" onclick="navigateCgpdtmQuestion(-1)">← Previous</button>
-              <div class="shortcuts-hint">Tip: Space to reveal answer, Left/Right arrow keys to navigate.</div>
+              <div class="shortcuts-hint">Tip: Use Left/Right arrow keys (or N / P) to cycle questions quickly.</div>
               <button class="btn-nav primary" id="btn-cgpdtm-next" onclick="navigateCgpdtmQuestion(1)">Next Question →</button>
             </div>
           </div>

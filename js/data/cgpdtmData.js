@@ -726,6 +726,371 @@ const cgpdtmScenarios = [
         explanation: "A Duplex Mismatch occurs when one side operates at Half-Duplex and the other at Full-Duplex. The half-duplex side experiences massive collisions and drops packets under load. Inspect switch interface statistics for CRC errors and collision counters."
       }
     ]
+  },
+  {
+    id: "sc_06",
+    title: "Scenario 6: Network Printer Offline in Patent Examination Wing",
+    subtitle: "Static IP Conflict, Port 9100 & Spooler Triage",
+    context: "Several patent examiners in Hall B report that the shared department laser printer (assigned static IP 10.20.14.50) shows 'Printer Offline' on all computers. Dozens of pending patent certificate print jobs are stuck in the print queue.",
+    steps: [
+      {
+        stepNum: 1,
+        title: "Step 1: Physical Status & Link Verification",
+        instruction: "What is your immediate first physical check at the printer console?",
+        options: [
+          "Delete the printer drivers from the Windows server registry.",
+          "Check the printer LCD panel for error codes (paper jam, toner empty, offline toggle), ensure power is on, and verify the network link LED on the back RJ-45 NIC is solid green.",
+          "Power off the entire floor's main circuit breaker.",
+          "Change the printer's IP address to a random number."
+        ],
+        correctIndex: 1,
+        explanation: "Always begin at Layer 1. Verify that the printer has power, the display shows 'Ready' without hardware fault codes (paper jam, door open, out of toner), and the Ethernet port has an active link light indicating connection to the wall port."
+      },
+      {
+        stepNum: 2,
+        title: "Step 2: Check Network Reachability via Ping & ARP Table",
+        instruction: "The printer display says 'Ready' with green link light. You ping 10.20.14.50 from your workstation and get 'Request timed out'. What diagnostic command do you run next to check Layer 2 address resolution?",
+        options: [
+          "Run `arp -a` to inspect whether the local ARP cache contains a valid MAC address mapped to 10.20.14.50.",
+          "Run `format c:` on the examiner workstation.",
+          "Run `nslookup` on youtube.com.",
+          "Reboot the building's core firewall."
+        ],
+        correctIndex: 0,
+        explanation: "Running `arp -a` reveals whether Address Resolution Protocol (ARP) resolved the printer's MAC address at Layer 2. If ARP shows 'incomplete' or no entry, the packet isn't even reaching the printer's network interface across the local switch VLAN."
+      },
+      {
+        stepNum: 3,
+        title: "Step 3: Detecting Duplicate IP Address Conflict",
+        instruction: "You disconnect the printer's network cable completely. When you ping 10.20.14.50 again, you surprisingly receive active ping replies! What does this prove?",
+        options: [
+          "The printer has phantom wireless telepathy.",
+          "There is an IP Address Conflict — another device (e.g., a newly connected laptop or unauthorized rogue workstation) has been configured with the same static IP 10.20.14.50.",
+          "The network switch has caught fire.",
+          "The ping utility is malfunctioning and must be reinstalled."
+        ],
+        correctIndex: 1,
+        explanation: "If you unplug the printer and 10.20.14.50 still responds, another active host on the LAN is claiming that same IP! When both devices are plugged in, ARP replies collide, the switch MAC table flaps, and print traffic drops."
+      },
+      {
+        stepNum: 4,
+        title: "Step 4: Isolating Conflicting Host & Assigning Clean Static IP / DHCP Reservation",
+        instruction: "How do you identify and resolve the conflicting device?",
+        options: [
+          "Run `arp -a 10.20.14.50` to find the rogue device's MAC address, trace its switch port via the switch MAC address table, reconfigure the offending device, and create a permanent DHCP Reservation for the printer.",
+          "Permanently shut down Hall B.",
+          "Ignore the conflict and tell examiners to write certificates by hand.",
+          "Disable IPv4 on all office workstations."
+        ],
+        correctIndex: 0,
+        explanation: "Identify the MAC address of the conflicting machine via `arp -a`, match it against the switch MAC table (`show mac address-table address <mac>`), locate the offending PC, and reassign it to DHCP. To prevent future conflicts, bind the printer's MAC address to a DHCP reservation on the central DHCP server."
+      },
+      {
+        stepNum: 5,
+        title: "Step 5: Testing Print Daemon Port & Clearing Stuck Spooler",
+        instruction: "With the conflict resolved and printer reconnected, ping succeeds. However, print jobs remain stalled in the queue. How do you test port 9100 and clear the spooler?",
+        options: [
+          "Test RAW port 9100 using `Test-NetConnection -ComputerName 10.20.14.50 -Port 9100`, stop the Print Spooler (`net stop spooler`), delete corrupted `.SHD` and `.SPL` files in `C:\\Windows\\System32\\spool\\PRINTERS`, and restart the spooler (`net start spooler`).",
+          "Reinstall Windows 11 on the printer.",
+          "Replace the printer toner cartridge with water.",
+          "Delete the system32 folder."
+        ],
+        correctIndex: 0,
+        explanation: "Standard RAW printing operates on TCP port 9100 (or LPR on 515). If port 9100 is open, a corrupted print file in the Windows spooler queue often jams all subsequent documents. Stopping the spooler, clearing `C:\\Windows\\System32\\spool\\PRINTERS`, and restarting the service clears the jam cleanly."
+      }
+    ]
+  },
+  {
+    id: "sc_07",
+    title: "Scenario 7: Remote Access IPsec/SSL VPN Gateway Connection Failure",
+    subtitle: "Remote Work, PKI Token & NAT-Traversal Troubleshooting",
+    context: "A senior patent officer working remotely on sensitive examination files reports that the official CGPDTM VPN client ('vpn.ipindia.gov.in') repeatedly fails with: 'Negotiation timed out / Gateway unreachable'.",
+    steps: [
+      {
+        stepNum: 1,
+        title: "Step 1: Verify Baseline Internet & WAN Connectivity",
+        instruction: "What is the officer's very first check on their remote laptop?",
+        options: [
+          "Reboot the government headquarters data center.",
+          "Verify the laptop has active home internet connectivity by loading a standard website or running `ping 8.8.8.8` in CMD.",
+          "Format the home Wi-Fi router.",
+          "Purchase a new laptop."
+        ],
+        correctIndex: 1,
+        explanation: "Before diagnosing VPN tunnel issues, verify that the remote workstation has a stable underlying internet connection. If the home Wi-Fi is disconnected or public internet is down, the VPN client cannot reach the gateway."
+      },
+      {
+        stepNum: 2,
+        title: "Step 2: Test DNS Resolution of VPN Gateway Hostname",
+        instruction: "Home internet is working normally. How do you verify that 'vpn.ipindia.gov.in' resolves to the correct public IP address?",
+        options: [
+          "Run `nslookup vpn.ipindia.gov.in` to check if public DNS returns the gateway's external IP address.",
+          "Run `ping localhost`.",
+          "Open Microsoft Paint.",
+          "Clear the browser history."
+        ],
+        correctIndex: 0,
+        explanation: "`nslookup vpn.ipindia.gov.in` queries the DNS server. If the DNS lookup times out or fails (Non-existent domain / SERVFAIL), the officer cannot establish a tunnel because their computer does not know which IP to connect to."
+      },
+      {
+        stepNum: 3,
+        title: "Step 3: Diagnosing Home Router / ISP Port Blocking (NAT-T & SSL)",
+        instruction: "DNS resolves correctly to the public gateway IP, but the VPN handshake fails at Phase 1. What protocol/port issues commonly block IPsec on residential routers?",
+        options: [
+          "Residential ISPs or home router firewalls blocking UDP port 500 (IKE) and UDP port 4500 (IPsec NAT-Traversal), or IPsec Passthrough being disabled on the home router.",
+          "The user's monitor refresh rate is set to 60Hz instead of 144Hz.",
+          "The laptop battery is charged over 80%.",
+          "The user's mouse is optical."
+        ],
+        correctIndex: 0,
+        explanation: "Standard IPsec requires UDP port 500 for Internet Key Exchange (IKE) and UDP port 4500 for NAT-Traversal (NAT-T) when clients are behind residential NAT routers. If the ISP or home router drops UDP 500/4500, IPsec cannot negotiate. Switching to SSL VPN (TCP Port 443) circumvents residential UDP blocks."
+      },
+      {
+        stepNum: 4,
+        title: "Step 4: PKI Digital Signature Token & Certificate Validity",
+        instruction: "The VPN utilizes digital certificates via an e-Token USB dongle. The tunnel handshake still fails with 'Authentication failed / Certificate rejected'. What do you inspect?",
+        options: [
+          "Check if the USB cryptographic token (e.g., e-Mudhra / DSC) is plugged in, driver is recognized, the certificate hasn't expired, and the system clock matches current time (preventing TLS time-drift).",
+          "Reinstall the printer driver.",
+          "Turn off the laptop screen.",
+          "Change the router password to admin."
+        ],
+        correctIndex: 0,
+        explanation: "Government VPNs require PKI digital certificates. Common causes of handshake failure are: expired client certificate, token driver missing/corrupted, or workstation system time drifted by more than 5 minutes (causing TLS certificate validation failure due to invalid validity windows)."
+      },
+      {
+        stepNum: 5,
+        title: "Step 5: Resolving MTU / MSS Tunnel Packet Fragmentation",
+        instruction: "The VPN connects successfully, but whenever the officer attempts to open a large patent PDF, the connection freezes while small text chats work fine. What is the root cause?",
+        options: [
+          "The laptop hard drive is spinning backward.",
+          "Path MTU / Packet Fragmentation: VPN encapsulation adds IPsec/TLS headers, exceeding the standard 1500-byte MTU. Lowering the VPN adapter MTU to 1400 or 1360 prevents dropped packet fragments.",
+          "The PDF file is written in English instead of Hindi.",
+          "The webcam is active."
+        ],
+        correctIndex: 1,
+        explanation: "VPN encapsulation adds 50-80 bytes of headers. If the client sends 1500-byte packets with the 'Don't Fragment' (DF) bit set, intermediate routers drop them silently (Black Hole router). Adjusting the VPN virtual adapter MTU to 1400 or clamping MSS resolves large packet stall immediately."
+      }
+    ]
+  },
+  {
+    id: "sc_08",
+    title: "Scenario 8: Rogue DHCP Server on Local Subnet Assigning Wrong IPs",
+    subtitle: "Enterprise LAN Security & DHCP Snooping Mitigation",
+    context: "Several clerks in the Trademark Filing Registry suddenly complain they cannot access the internal portal. Upon checking their computers, they have strange IP addresses like '192.168.0.102' instead of the official '10.100.14.x' network range.",
+    steps: [
+      {
+        stepNum: 1,
+        title: "Step 1: Identify Rogue DHCP Server Source IP",
+        instruction: "You sit at an affected computer. What command do you run to find the IP address of the rogue server handing out invalid leases?",
+        options: [
+          "Run `ipconfig /all` and look for the 'DHCP Server' field in the Ethernet adapter details.",
+          "Run `ping 127.0.0.1`.",
+          "Type `exit` in CMD.",
+          "Disconnect the monitor cable."
+        ],
+        correctIndex: 0,
+        explanation: "`ipconfig /all` displays the exact IP address of the DHCP server that granted the lease. In this case, it displays 'DHCP Server: 192.168.0.1', confirming an unauthorized DHCP device is responding faster than the legitimate server."
+      },
+      {
+        stepNum: 2,
+        title: "Step 2: Trace Rogue MAC Address & Switch Port",
+        instruction: "With the rogue IP identified as 192.168.0.1, how do you locate where it is physically connected in the building?",
+        options: [
+          "Run `arp -a 192.168.0.1` to get its MAC address, then log into the managed switch and query `show mac address-table address <MAC>` to identify the exact physical switch port.",
+          "Walk through every room shouting into the hallway.",
+          "Shut down the national patent registry database.",
+          "Format all workstations on the floor."
+        ],
+        correctIndex: 0,
+        explanation: "Every packet carries a MAC address. `arp -a` reveals the physical MAC of the rogue device. Searching the switch MAC address table tells you the exact switch port (e.g., GigabitEthernet 0/14) where the device is plugged in."
+      },
+      {
+        stepNum: 3,
+        title: "Step 3: Physical Discovery & Incident Containment",
+        instruction: "You trace port Gi0/14 to Room 108 and find an employee plugged in an unapproved personal Wi-Fi router into the wall port via its LAN port instead of WAN. What is your immediate action?",
+        options: [
+          "Leave it plugged in because Wi-Fi is convenient.",
+          "Disconnect the unauthorized device immediately from the wall jack, administrative shutdown the switch port, and educate the user on government IT security guidelines prohibiting unapproved network equipment.",
+          "Connect five more routers to the same jack.",
+          "Assign administrative rights to the employee."
+        ],
+        correctIndex: 1,
+        explanation: "Disconnect the unapproved rogue device immediately. Connecting a consumer router's LAN port to an enterprise network causes its internal DHCP server to race against the corporate DHCP server, broadcasting rogue IP leases to neighboring PCs."
+      },
+      {
+        stepNum: 4,
+        title: "Step 4: Implementing Permanent Protection via DHCP Snooping",
+        instruction: "How do you permanently configure the enterprise network switches so that rogue DHCP servers can NEVER hand out leases again?",
+        options: [
+          "Disable all Ethernet switches permanently.",
+          "Enable **DHCP Snooping** on the switch: configure the legitimate DHCP server uplink port as 'trusted' (`ip dhcp snooping trust`) and leave all user-facing access ports as 'untrusted' to drop rogue DHCP offer packets.",
+          "Cover all wall ports with tape.",
+          "Change the subnet mask to 255.255.255.255."
+        ],
+        correctIndex: 1,
+        explanation: "DHCP Snooping is a Layer 2 security feature on managed switches. It filters unauthorized DHCP messages. When enabled, only ports explicitly configured as 'trusted' (the uplink to the legitimate server) can send DHCP Offer and ACK packets; offers on untrusted access ports are immediately dropped."
+      },
+      {
+        stepNum: 5,
+        title: "Step 5: Restoring Clean IP Leases to Affected Workstations",
+        instruction: "With the rogue device removed and DHCP Snooping active, how do you restore valid enterprise IPs to the affected workstations without rebooting them?",
+        options: [
+          "Run `ipconfig /release` followed by `ipconfig /renew` in an Administrator CMD prompt on each affected machine.",
+          "Delete the network adapter driver.",
+          "Change the computer hostname.",
+          "Reinstall the operating system."
+        ],
+        correctIndex: 0,
+        explanation: "`ipconfig /release` releases the rogue 192.168.0.x lease, and `ipconfig /renew` broadcasts a fresh DHCP Discover, receiving a valid 10.100.14.x IP configuration from the authorized enterprise DHCP server."
+      }
+    ]
+  },
+  {
+    id: "sc_09",
+    title: "Scenario 9: Severe Wi-Fi Degradation & Latency in Hearing Room",
+    subtitle: "Wireless Interference, 2.4 vs 5 GHz Spectrum & AP Load Balancing",
+    context: "During a crucial online hybrid trademark dispute hearing in the Main Conference Hall, examiners and legal counsels report severe buffering, frozen video streams, and 45% packet loss despite laptops showing full Wi-Fi signal bars.",
+    steps: [
+      {
+        stepNum: 1,
+        title: "Step 1: Distinguishing Signal Strength from Channel Congestion",
+        instruction: "Full Wi-Fi signal bars are displayed, yet packet loss is 45%. What does this critical distinction indicate?",
+        options: [
+          "The laptops are infected with biological viruses.",
+          "High signal strength (RSSI) only measures radio amplitude; severe packet loss occurs due to RF Interference, Co-Channel Contention, or high Channel Utilization (duty cycle) on saturated frequencies.",
+          "The internet cable has been disconnected at the ISP.",
+          "The Wi-Fi antennas are upside down."
+        ],
+        correctIndex: 1,
+        explanation: "Full bars simply mean the Access Point (AP) radio signal is loud. If 50 devices in the room are sharing a single 2.4 GHz channel (e.g., Channel 6 with only 3 non-overlapping channels available), severe CSMA/CA packet collisions and backoff delays occur."
+      },
+      {
+        stepNum: 2,
+        title: "Step 2: Wireless Spectrum & Band Steering Analysis",
+        instruction: "You inspect the Wireless Controller (WLC). You notice 42 out of 48 devices are connected on the 2.4 GHz band while the 5 GHz radio is mostly idle. What configuration fixes this immediately?",
+        options: [
+          "Enable **Band Steering** on the Access Point / Controller to push dual-band client laptops to the 5 GHz band, which provides higher bandwidth and 24+ non-overlapping channels.",
+          "Turn off all Wi-Fi routers in the building.",
+          "Move the conference table into the hallway.",
+          "Disconnect all laptop chargers."
+        ],
+        correctIndex: 0,
+        explanation: "The 2.4 GHz band is crowded with only channels 1, 6, and 11 being non-overlapping, plus interference from Bluetooth. Band Steering encourages 5 GHz-capable devices to connect to 5 GHz (802.11ac/ax), which has much greater spectrum capacity and avoids contention."
+      },
+      {
+        stepNum: 3,
+        title: "Step 3: Checking AP Client Association Capacity",
+        instruction: "The single Access Point in the hall is serving 50 active clients and reaching its hardware memory/CPU limits. How should enterprise wireless handle high-density conference rooms?",
+        options: [
+          "Deploy high-density dual-radio APs, adjust AP transmit power so adjacent hallway APs share the load, and set client maximum association limits per radio.",
+          "Limit conference meetings to 2 minutes each.",
+          "Remove the password from the Wi-Fi.",
+          "Paint the ceiling with lead paint."
+        ],
+        correctIndex: 0,
+        explanation: "High-density environments (hearing rooms, auditoriums) require high-density APs, cell sizing via reduced transmit power (preventing clients from clinging to distant APs), and load balancing client associations across multiple APs."
+      },
+      {
+        stepNum: 4,
+        title: "Step 4: Checking AP Ethernet Uplink Port Speed & PoE Budget",
+        instruction: "What Layer 1/Layer 2 check on the network switch is vital for enterprise Access Points?",
+        options: [
+          "Verify the switch port negotiated at 1000 Mbps (1 Gbps) or 2.5 Gbps Full-Duplex and that the switch's Power over Ethernet (PoE+ 802.3at) budget is delivering sufficient wattage for all AP radios.",
+          "Ensure the switch port is set to 10 Mbps Half-Duplex.",
+          "Unplug the switch power cord.",
+          "Check the computer mouse battery."
+        ],
+        correctIndex: 0,
+        explanation: "If the Ethernet cable connecting the AP to the switch has a damaged pair, the link drops from 1000 Mbps to 100 Mbps, bottlenecking all 50 wireless users. Furthermore, modern dual-band APs require PoE+ (802.3at); insufficient PoE wattage causes the AP to disable its 5 GHz radio."
+      },
+      {
+        stepNum: 5,
+        title: "Step 5: Mission-Critical Hearing Contingency",
+        instruction: "While Wi-Fi tuning takes effect, the judicial hearing cannot be halted. What is the standard professional IT protocol for mission-critical proceedings?",
+        options: [
+          "Provide an immediate direct wired Ethernet patch connection to the presiding officer / hearing examiner's laptop to guarantee zero-packet-loss stability during legal arguments.",
+          "Cancel the hearing and dismiss the lawyers.",
+          "Ask everyone in the room to hold their breath.",
+          "Send the video over WhatsApp."
+        ],
+        correctIndex: 0,
+        explanation: "In high-stakes legal hearings (such as patent opposition hearings), wire is always king. Providing an immediate direct Cat6 Ethernet connection to the presiding officer guarantees 0% packet loss and bypasses RF spectrum issues."
+      }
+    ]
+  },
+  {
+    id: "sc_10",
+    title: "Scenario 10: Large Trademark & Patent Dossier Uploads Stalling Midway",
+    subtitle: "HTTP 413 Payload Limits, Reverse Proxy & MTU/MSS Triage",
+    context: "Patent filing clerks report that regular web forms upload without issue, but when uploading complete 35 MB patent specifications with high-resolution mechanical drawings or audio trademarks, the upload bar freezes at 85% and throws: 'Connection Reset / HTTP 413'.",
+    steps: [
+      {
+        stepNum: 1,
+        title: "Step 1: Inspect Error Code in Browser Developer Tools (F12)",
+        instruction: "How do you inspect the exact HTTP response code returned by the server?",
+        options: [
+          "Open Chrome/Edge Developer Tools (F12), switch to the **Network** tab, attempt the upload, and inspect the failed POST request status code and response headers.",
+          "Take a photo of the screen with a smartphone.",
+          "Restart the computer monitor.",
+          "Clear the recycle bin."
+        ],
+        correctIndex: 0,
+        explanation: "F12 Developer Tools Network tab displays exact request headers, payload size, timing breakdown, and HTTP status codes (e.g., HTTP 413 Payload Too Large vs HTTP 504 Gateway Timeout vs TCP connection reset)."
+      },
+      {
+        stepNum: 2,
+        title: "Step 2: Differentiating Reverse Proxy / Web Server Upload Limits",
+        instruction: "The network tab shows 'HTTP 413 Payload Too Large'. Where is this restriction configured in an enterprise web stack?",
+        options: [
+          "On the reverse proxy (e.g., `client_max_body_size` in Nginx, `LimitRequestBody` in Apache, or `maxAllowedContentLength` in IIS web.config).",
+          "In the computer's BIOS settings.",
+          "In the building's water meter.",
+          "In the graphics card control panel."
+        ],
+        correctIndex: 0,
+        explanation: "HTTP 413 explicitly signifies that the web server or reverse proxy (Nginx, Apache, or IIS) rejected the request because the uploaded payload exceeded the configured upload ceiling (often defaulted to 1MB or 10MB)."
+      },
+      {
+        stepNum: 3,
+        title: "Step 3: Stateful Firewall & Next-Gen IPS Inspection Timeout",
+        instruction: "The web server limit was raised to 50MB, but now uploads over slow WAN connections fail after exactly 60 seconds with 'Connection reset by peer'. What edge device causes this?",
+        options: [
+          "The perimeter firewall or application gateway timeout setting (e.g., TCP idle timeout or deep packet inspection timeout terminating connections that transfer slowly).",
+          "The computer mouse pad.",
+          "The keyboard caps lock key.",
+          "The office air conditioner."
+        ],
+        correctIndex: 0,
+        explanation: "Stateful firewalls and proxy gateways enforce session timeouts (e.g., 60 seconds). If a user on a slow link takes 90 seconds to stream a 35 MB payload, the firewall tears down the TCP session unless the proxy timeout (`proxy_read_timeout` / firewall session timeout) is increased."
+      },
+      {
+        stepNum: 4,
+        title: "Step 4: Path MTU Discovery (PMTUD) & Black Hole Routers",
+        instruction: "If packets drop midway during large continuous TCP streaming but not during small transactions, what networking mechanism should be checked?",
+        options: [
+          "PMTUD (Path MTU Discovery): Verify intermediate network hops are not blocking ICMP Type 3 Code 4 ('Fragmentation Needed and DF set'), preventing TCP MSS clamping.",
+          "Ensure the keyboard is wireless.",
+          "Check if the desk is made of wood.",
+          "Check the PC volume level."
+        ],
+        correctIndex: 0,
+        explanation: "When large TCP data streams send full 1500-byte packets with the Don't Fragment (DF) bit set, intermediate WAN links with lower MTU (e.g., PPPoE or IPsec tunnels) must send ICMP Type 3 Code 4 to lower the sender's MSS. If firewalls block ICMP, 'PMTU Black Hole' occurs and the connection stalls."
+      },
+      {
+        stepNum: 5,
+        title: "Step 5: Architectural Best Practice (Chunked Uploads & Resumability)",
+        instruction: "What modern software and infrastructure design best practice prevents large document uploads from ever failing completely due to minor network blips?",
+        options: [
+          "Chunked / Sliced Upload with Resumable Transfers: Slice large files into 2 MB chunks on the client side, upload chunks sequentially with checksums, and reassemble on the server.",
+          "Ban all patent filings with drawings.",
+          "Tell users to email their passwords.",
+          "Print the 35 MB file and scan it with a fax machine."
+        ],
+        correctIndex: 0,
+        explanation: "Enterprise portal architecture (like patent filing systems) should use chunked uploads (e.g., tus.io protocol or S3 multipart upload). Slicing files into 2-5 MB chunks means an upload blip only retries a single 2 MB chunk rather than failing the entire 35 MB payload."
+      }
+    ]
   }
 ];
 
