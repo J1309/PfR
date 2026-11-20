@@ -3,123 +3,334 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>Prep Studio | Modular Exam & Interview Platform</title>
-  <meta name="description" content="Modular, offline-ready preparation platform for competitive exams and technical interviews.">
+  <title>DSSSB TGT Computer Science (41/26) | Learn & CBT Studio</title>
+  <meta name="description" content="Complete DSSSB TGT Computer Science (Post Code 41/26) Learning Hub, Topic Practice, and 200-Question CBT Simulator with Section Lockout.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="theme-dark">
   <div id="app" class="app-container">
-    <!-- Top Header Navigation -->
+
+    <!-- Top Header -->
     <header class="app-header">
       <div class="header-brand">
-        <div class="brand-badge">STUDIO</div>
+        <div class="brand-badge">41/26</div>
         <div class="brand-titles">
-          <h1>Prep Studio</h1>
-          <span class="sub-pill">Modular Exam & Interview Platform</span>
+          <h1>DSSSB TGT Computer Science</h1>
+          <span class="sub-pill">Advt. 03/2026 • 675 Vacancies (416 UR) • Pay Level 7</span>
         </div>
       </div>
 
+      <nav class="header-nav" id="main-nav">
+        <button id="nav-learn" class="nav-btn active" onclick="switchView('learn')">
+          <span class="icon">📚</span>
+          <span class="nav-lbl-desktop">Learn Hub</span>
+          <span class="nav-lbl-mobile">Learn</span>
+        </button>
+        <button id="nav-practice" class="nav-btn" onclick="switchView('practice')">
+          <span class="icon">🎯</span>
+          <span class="nav-lbl-desktop">Topic Practice</span>
+          <span class="nav-lbl-mobile">Practice</span>
+        </button>
+        <button id="nav-test" class="nav-btn" onclick="switchView('test')">
+          <span class="icon">⚡</span>
+          <span class="nav-lbl-desktop">CBT Test Simulator</span>
+          <span class="nav-lbl-mobile">CBT Test</span>
+        </button>
+        <button id="nav-bookmarks" class="nav-btn" onclick="switchView('bookmarks')">
+          <span class="icon">⭐</span>
+          <span class="nav-lbl-desktop">Starred (<span id="bookmark-count">0</span>)</span>
+          <span class="nav-lbl-mobile">Starred</span>
+        </button>
+      </nav>
+
       <div class="header-controls">
-        <div class="status-pill">
+        <div class="status-pill" title="Studied Modules Progress">
           <span class="pulse-dot"></span>
-          <span>Clean Slate • Ready</span>
+          <span id="studied-pill-text">0/15 Studied</span>
         </div>
-        <button id="theme-toggle" class="icon-btn" title="Toggle Theme" onclick="toggleTheme()">
+        <button id="theme-toggle" class="icon-btn" title="Toggle Dark/Light Theme" onclick="toggleTheme()">
           🌓
         </button>
       </div>
     </header>
 
-    <!-- Main Content Area -->
+    <!-- Main Views -->
     <main class="main-content">
-      <div class="starter-container">
-        
-        <!-- Hero Banner -->
-        <section class="starter-hero">
-          <div class="hero-badge">All Previous Datasets Cleared</div>
-          <h2 class="hero-title">Platform Ready for Your Next Goal</h2>
-          <p class="hero-desc">
-            PFRDA Phase 1 and CGPDTM interview materials have been successfully completed and removed from the active site. The modular engine is now idle, clean, and ready to be configured for your next competitive exam, technical interview, or certification sprint.
-          </p>
-        </section>
 
-        <!-- Feature Capabilities Cards -->
-        <section class="features-grid">
-          <div class="feature-card">
-            <div class="card-icon">🎯</div>
-            <h3>Interactive Drill Engine</h3>
-            <p>Active recall questions with immediate explanations, option lockouts, keyboard navigation shortcuts, and category filtering.</p>
+      <!-- ================================================================== -->
+      <!-- VIEW 1: LEARN HUB (SEPARATE STUDY SECTION) -->
+      <!-- ================================================================== -->
+      <section id="view-learn" class="view-panel active">
+        <div class="workspace-layout">
+          <aside class="sidebar">
+            <div class="sidebar-header">
+              <h3>Complete Syllabus</h3>
+              <span class="badge-total">15 Modules</span>
+            </div>
+
+            <div class="search-box">
+              <input type="text" id="learn-search-input" placeholder="🔍 Search any concept, law, port..." oninput="filterLearnContent(this.value)">
+            </div>
+
+            <div class="module-list" id="learn-module-list">
+              <!-- Populated via JS -->
+            </div>
+          </aside>
+
+          <div class="arena" id="learn-arena">
+            <div class="arena-toolbar">
+              <div class="topic-heading">
+                <div class="meta-row">
+                  <span class="pill-tag" id="learn-section-badge">Section A</span>
+                  <span class="pill-tag accent" id="learn-weight-badge">20 Marks</span>
+                </div>
+                <h2 id="learn-title">Loading module...</h2>
+                <p id="learn-subtitle"></p>
+              </div>
+              <div class="toolbar-actions">
+                <button class="action-btn" id="btn-mark-studied" onclick="toggleCurrentModuleStudied()">
+                  ☐ Mark Studied
+                </button>
+                <button class="action-btn primary" onclick="jumpToPracticeFromLearn()">
+                  🎯 Practice This Module →
+                </button>
+              </div>
+            </div>
+
+            <div class="learn-cards-container" id="learn-cards-container">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- VIEW 2: TOPIC PRACTICE (UNBIASED MCQ DRILLS) -->
+      <!-- ================================================================== -->
+      <section id="view-practice" class="view-panel">
+        <div class="workspace-layout">
+          <aside class="sidebar">
+            <div class="sidebar-header">
+              <h3>Practice Banks</h3>
+              <span class="badge-total" id="practice-total-badge">300 MCQs</span>
+            </div>
+
+            <div class="module-list" id="practice-module-list">
+              <!-- Populated via JS -->
+            </div>
+          </aside>
+
+          <div class="arena">
+            <div class="arena-toolbar">
+              <div class="topic-heading">
+                <h2 id="practice-topic-title">Select a Module</h2>
+                <p id="practice-topic-desc">Options are shuffled and balanced — no giveaway answers.</p>
+              </div>
+              <div class="toolbar-actions">
+                <span class="progress-indicator">
+                  Q <strong id="practice-curr-idx">1</strong> / <strong id="practice-total-idx">20</strong>
+                </span>
+                <span class="score-chip" id="practice-accuracy-chip">Score: 0/0</span>
+                <button class="action-btn" id="btn-star-practice" onclick="toggleStarPracticeQuestion()">☆ Star</button>
+                <button class="action-btn" onclick="shufflePracticeModule()">🔀 Shuffle</button>
+              </div>
+            </div>
+
+            <div class="question-card">
+              <div class="question-meta">
+                <span class="pill-tag" id="practice-q-subtopic">Topic</span>
+                <span class="pill-tag accent" id="practice-q-section">Section B</span>
+              </div>
+
+              <div class="question-text" id="practice-q-text">Loading question...</div>
+
+              <div class="options-grid" id="practice-options-container">
+                <!-- Populated via JS -->
+              </div>
+
+              <div class="explanation-box hidden" id="practice-explanation-box">
+                <div class="exp-header" id="practice-exp-status"></div>
+                <div class="exp-body" id="practice-exp-text"></div>
+              </div>
+            </div>
+
+            <div class="arena-footer">
+              <button class="btn-nav" id="btn-practice-prev" onclick="navigatePractice(-1)">← Previous</button>
+              <div class="shortcuts-hint">Keys: 1–4 Answer • N/→ Next • P/← Prev • S Star</div>
+              <button class="btn-nav primary" id="btn-practice-next" onclick="navigatePractice(1)">Next Question →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- VIEW 3: DSSSB CBT TEST SIMULATOR (SEPARATE TEST SECTION) -->
+      <!-- ================================================================== -->
+      <section id="view-test" class="view-panel">
+        <!-- Test Lobby -->
+        <div class="cbt-lobby" id="cbt-lobby">
+          <div class="lobby-hero">
+            <div class="pill-tag accent">Authentic DSSSB One-Tier CBT Engine</div>
+            <h2>DSSSB TGT Computer Science (41/26) Mock Test</h2>
+            <p>
+              Exact official marking scheme (<strong>+1.00</strong> correct, <strong>−0.25</strong> wrong),
+              mandatory <strong>40% UR Section-B qualifying check</strong>, and optional
+              <strong>DSSSB 20-Question Section Lockout</strong> (once you submit a 20-Q block, you cannot go back).
+            </p>
           </div>
 
-          <div class="feature-card">
-            <div class="card-icon">⚡</div>
-            <h3>CBT Mock Simulator</h3>
-            <p>Full Computer-Based Test environment featuring timed sections, question palettes, negative marking, and performance analytics.</p>
+          <div class="lobby-toggle-bar">
+            <label class="switch-label">
+              <input type="checkbox" id="cbt-section-lock-toggle" checked>
+              <span><strong>Enable Authentic DSSSB 20-Question Section Lockout</strong> (Recommended — matches real exam UI)</span>
+            </label>
           </div>
 
-          <div class="feature-card">
-            <div class="card-icon">📑</div>
-            <h3>High-Yield Cheatsheets</h3>
-            <p>Searchable reference matrices, command sheets, side-by-side comparison tables, and quick-revision flash summaries.</p>
+          <div class="cbt-modes-grid">
+            <div class="mode-card featured">
+              <div class="mode-badge">Official Pattern</div>
+              <h3>Full 200-Question CBT Mock</h3>
+              <p>100 Section A (5 × 20 Qs) + 100 Section B (Computer Science, BCA &amp; Pedagogy). 120 Minutes.</p>
+              <div class="mode-stats"><span>200 Qs</span><span>200 Marks</span><span>120 Mins</span></div>
+              <button class="btn-nav primary full-width" onclick="startCbtTest('full')">Start Full 200-Q Mock →</button>
+            </div>
+
+            <div class="mode-card">
+              <div class="mode-badge">Domain Focus</div>
+              <h3>Section B Full Test (CS + Pedagogy)</h3>
+              <p>100 Questions across all 10 Section B modules. Checks mandatory 40% UR qualifying threshold.</p>
+              <div class="mode-stats"><span>100 Qs</span><span>100 Marks</span><span>60 Mins</span></div>
+              <button class="btn-nav primary full-width" onclick="startCbtTest('secB')">Start Section B Test →</button>
+            </div>
+
+            <div class="mode-card">
+              <div class="mode-badge">General Aptitude</div>
+              <h3>Section A Full Test (5 Subjects)</h3>
+              <p>100 Questions: GA (20), Reasoning (20), Math (20), Hindi (20), English (20). 60 Minutes.</p>
+              <div class="mode-stats"><span>100 Qs</span><span>100 Marks</span><span>60 Mins</span></div>
+              <button class="btn-nav primary full-width" onclick="startCbtTest('secA')">Start Section A Test →</button>
+            </div>
+
+            <div class="mode-card">
+              <div class="mode-badge">Rapid Drill</div>
+              <h3>40-Question Speed Test</h3>
+              <p>20 Mixed Section A + 20 Mixed Section B questions in 25 minutes for quick daily calibration.</p>
+              <div class="mode-stats"><span>40 Qs</span><span>40 Marks</span><span>25 Mins</span></div>
+              <button class="btn-nav primary full-width" onclick="startCbtTest('speed')">Start Speed Test →</button>
+            </div>
           </div>
 
-          <div class="feature-card">
-            <div class="card-icon">🎙️</div>
-            <h3>Interview Flashcard Studio</h3>
-            <p>Spoken 60-second response scripts, panel traps, keyword dropping aids, and step-by-step diagnostic ticket simulators.</p>
+          <div class="cutoff-ref-card">
+            <h4>📊 Official Historical E-Dossier Cutoffs (UR Category — Out of 200)</h4>
+            <div class="cutoff-grid">
+              <div><strong>Post Code 91/20 (2021):</strong> 123.93 / 200 (UR) • 113.00 (EWS)</div>
+              <div><strong>Post Code 39/22 (2023):</strong> 122.64 / 200 (UR) • 98.83 (EWS)</div>
+              <div><strong>Safe Target (41/26):</strong> <span class="text-success">135–145+ / 200</span> (with ≥ 40/100 in Sec B)</div>
+            </div>
           </div>
-        </section>
+        </div>
 
-        <!-- Next Steps Instruction Card -->
-        <section class="setup-guide-card">
-          <div class="guide-header">
-            <div class="guide-icon">🚀</div>
+        <!-- Active CBT Exam Interface -->
+        <div class="cbt-active-wrapper hidden" id="cbt-active-wrapper">
+          <div class="cbt-topbar">
+            <div class="cbt-block-tabs" id="cbt-block-tabs">
+              <!-- 20-Q block pills -->
+            </div>
+            <div class="cbt-timer-group">
+              <span class="cbt-timer" id="cbt-timer-display">120:00</span>
+              <button class="action-btn danger" onclick="confirmSubmitCbt()">Submit Exam</button>
+            </div>
+          </div>
+
+          <div class="cbt-body-grid">
+            <div class="cbt-question-pane">
+              <div class="question-meta">
+                <span class="pill-tag" id="cbt-q-number">Question 1 of 200</span>
+                <span class="pill-tag accent" id="cbt-q-section-label">Section A • GA</span>
+                <span class="pill-tag warn">+1.00 / −0.25</span>
+              </div>
+
+              <div class="question-text" id="cbt-q-text"></div>
+
+              <div class="options-grid" id="cbt-options-container"></div>
+
+              <div class="cbt-action-bar">
+                <div class="cbt-action-left">
+                  <button class="btn-nav" onclick="cbtMarkForReview()">🟣 Mark for Review &amp; Next</button>
+                  <button class="btn-nav" onclick="cbtClearResponse()">Clear Response</button>
+                </div>
+                <div class="cbt-action-right">
+                  <button class="btn-nav" id="btn-cbt-prev" onclick="cbtNavigate(-1)">← Prev</button>
+                  <button class="btn-nav primary" id="btn-cbt-save-next" onclick="cbtSaveAndNext()">Save &amp; Next →</button>
+                </div>
+              </div>
+            </div>
+
+            <aside class="cbt-palette-pane">
+              <div class="palette-header">
+                <h4 id="cbt-block-title">Block 1 (Q1–Q20)</h4>
+                <button class="action-btn primary hidden" id="btn-lock-next-block" onclick="cbtLockAndAdvanceBlock()">
+                  Lock Block &amp; Next →
+                </button>
+              </div>
+
+              <div class="palette-legend">
+                <span><i class="dot ans"></i>Answered</span>
+                <span><i class="dot not-ans"></i>Not Ans</span>
+                <span><i class="dot rev"></i>Review</span>
+                <span><i class="dot not-vis"></i>Unvisited</span>
+              </div>
+
+              <div class="palette-grid" id="cbt-palette-grid"></div>
+            </aside>
+          </div>
+        </div>
+
+        <!-- CBT Results & Full Solution Review -->
+        <div class="cbt-results hidden" id="cbt-results">
+          <div class="results-header">
+            <h2>📊 DSSSB CBT Performance Report</h2>
+            <div class="toolbar-actions">
+              <button class="btn-nav" onclick="filterCbtReview('all')">All</button>
+              <button class="btn-nav" onclick="filterCbtReview('wrong')">Wrong Only</button>
+              <button class="btn-nav" onclick="filterCbtReview('unattempted')">Unattempted</button>
+              <button class="btn-nav primary" onclick="resetCbtToLobby()">Take Another Test</button>
+            </div>
+          </div>
+
+          <div class="results-summary-grid" id="cbt-results-summary"></div>
+          <div class="results-breakdown" id="cbt-results-breakdown"></div>
+          <div class="results-review-list" id="cbt-results-review"></div>
+        </div>
+      </section>
+
+      <!-- ================================================================== -->
+      <!-- VIEW 4: STARRED REVISION -->
+      <!-- ================================================================== -->
+      <section id="view-bookmarks" class="view-panel">
+        <div class="bookmarks-container">
+          <div class="bookmarks-header">
             <div>
-              <h3>How to Add Your Next Exam Track</h3>
-              <p>Whenever you are ready to prepare for a new exam, follow these simple steps:</p>
+              <h2>⭐ Starred Questions for Rapid Revision</h2>
+              <p>Tricky questions you saved from Topic Practice for last-minute review.</p>
             </div>
+            <button class="action-btn danger" onclick="clearAllBookmarks()">Clear All</button>
           </div>
+          <div class="bookmarks-list" id="bookmarks-list"></div>
+        </div>
+      </section>
 
-          <div class="steps-list">
-            <div class="step-item">
-              <span class="step-num">1</span>
-              <div class="step-content">
-                <strong>Create your data file:</strong>
-                <span>Add your question or cheatsheet array inside <code>js/data/yourExamData.js</code>.</span>
-              </div>
-            </div>
-
-            <div class="step-item">
-              <span class="step-num">2</span>
-              <div class="step-content">
-                <strong>Link it in <code>index.html</code>:</strong>
-                <span>Include <code>&lt;script src="js/data/yourExamData.js"&gt;&lt;/script&gt;</code> before <code>js/app.js</code>.</span>
-              </div>
-            </div>
-
-            <div class="step-item">
-              <span class="step-num">3</span>
-              <div class="step-content">
-                <strong>Tell the agent:</strong>
-                <span>Simply state which exam you're preparing for and share your syllabus or PDFs to generate full drill decks instantly.</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="app-footer">
-      <p>Prep Studio • Offline-First • Zero Dependencies • Fast & Lightweight</p>
-    </footer>
   </div>
 
-  <!-- Core App Scripts -->
+  <!-- Data & Application Scripts -->
+  <script src="js/data/learnContent.js"></script>
+  <script src="js/data/sectionAQuestions.js"></script>
+  <script src="js/data/sectionB_CoreCS.js"></script>
+  <script src="js/data/sectionB_AppliedPedagogy.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
